@@ -10,7 +10,10 @@
 		规则函数的编写：必须继承com.meidusa.amoeba.sqljep.function.PostfixCommand 类
 	-->
 	<function name="hash" class="com.meidusa.amoeba.sqljep.function.Hash"/>
-	<function name="getDbServerById" class="com.meidusa.amoeba.sqljep.function.GetDbServerById"/>
+	<function name="getDbServerById" class="com.meidusa.amoeba.sqljep.function.GetDbServerById">
+		<property name="sql">select * from user_dbserver where userId = ?</property>
+		<property name="poolName">jdbcserver</property>
+	</function>
 	
 	
 	<!-- jdbcserver's factoryConfig class must be com.meidusa.amoeba.jdbc.JdbcConnectionFactory -->

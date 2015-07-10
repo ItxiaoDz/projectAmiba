@@ -2,10 +2,19 @@ package com.meidusa.amoeba.sqljep.function;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.apache.log4j.Logger;
+
+import com.meidusa.amoeba.context.ProxyRuntimeContext;
+import com.meidusa.amoeba.net.poolable.ObjectPool;
 import com.meidusa.amoeba.sqljep.ASTFunNode;
 import com.meidusa.amoeba.sqljep.JepRuntime;
 import com.meidusa.amoeba.sqljep.ParseException;
@@ -17,13 +26,17 @@ import com.meidusa.amoeba.util.DbServerUtil;
  *
  */
 public class GetDbServerById extends PostfixCommand {
-	
+	private static Logger logger           = Logger.getLogger(GetDbServerById.class);
 	private String        poolName;
+	private String        sql;
 	
 	public void setPoolName(String poolName) {
 		this.poolName = poolName;
 	}
-
+	public void setSql(String sql) {
+        this.sql = sql;
+    }
+	
 	final public int getNumberOfParameters() {
 		return 1;
 	}
@@ -33,12 +46,95 @@ public class GetDbServerById extends PostfixCommand {
 		Comparable<?>  param = runtime.stack.pop();
 		return new Comparable<?>[]{param};
 	}
+	
+	private Map<String, Object> query(Comparable<?>[] parameters) {
+        ObjectPool pool = ProxyRuntimeContext.getInstance().getPoolMap().get(poolName);
+        Connection conn = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
 
-	public static Comparable<?> getDbserverById(Comparable<?>  param) throws ParseException {
+        try {
+            Map<String, Object> columnMap = null;
+            conn = (Connection) pool.borrowObject();
+            st = conn.prepareStatement(sql);
+            if (parameters != null) {
+                for (int i = 0; i < parameters.length; i++) {
+                    if (parameters[i] instanceof Comparative) {
+                        st.setObject(i + 1, ((Comparative) parameters[i]).getValue());
+                    } else {
+                        st.setObject(i + 1, parameters[i]);
+                    }
+                }
+            }
+
+            rs = st.executeQuery();
+            if (rs.next()) {
+                columnMap = new HashMap<String, Object>();
+                ResultSetMetaData metaData = rs.getMetaData();
+                for (int i = 1; i <= metaData.getColumnCount(); i++) {
+                    String columnName = null;
+                    String label = metaData.getColumnLabel(i);
+                    if (label != null) {
+                        columnName = label.toLowerCase();
+                    } else {
+                        columnName = metaData.getColumnName(i).toLowerCase();
+                    }
+                    Object columnValue = rs.getObject(i);
+                    columnMap.put(columnName, columnValue);
+                    if (logger.isDebugEnabled()) {
+                        logger.debug("[columnName]:" + columnName + " [columnValue]:" + columnValue + " [args]:" + Arrays.toString(parameters));
+                    }
+                }
+            } else {
+                logger.error("no result!sql:[" + sql + "], args:" + Arrays.toString(parameters));
+            }
+            return columnMap;
+        } catch (Exception e) {
+            logger.error("execute sql error :" + sql, e);
+            return null;
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e1) {
+                }
+            }
+
+            if (st != null) {
+                try {
+                    st.close();
+                } catch (SQLException e1) {
+                }
+            }
+
+            if (conn != null) {
+                try {
+                    pool.returnObject(conn);
+                } catch (Exception e) {
+                }
+            }
+        }
+    }
+	
+	public Comparable<?> getDbserverById(Comparable<?>  param) throws ParseException {
 		if (param == null) {
 			return null;
 		}
-		String driver = "com.mysql.jdbc.Driver";
+		Comparable<?>[] params = new Comparable<?>[]{param};
+		Map<String,Object> serverResult = query(params);
+		
+		String dbserver = (String) serverResult.get("dbserver");
+		String ipAddr = (String) serverResult.get("ipaddr");
+		int port = 0;
+		if(serverResult.containsKey("port") && null != serverResult.get("port")){
+			port = (Integer) serverResult.get("port");
+		}
+		String dbUser = (String) serverResult.get("dbUser");
+		String dbPassword = (String) serverResult.get("dbPassword");
+		String schema = (String) serverResult.get("schema");
+		String parent = (String) serverResult.get("parent");
+		
+		/*String driver = "com.mysql.jdbc.Driver";
 
 		// URL指向要访问的数据库名scutcs
 
@@ -51,13 +147,7 @@ public class GetDbServerById extends PostfixCommand {
 		// Java连接MySQL配置时的密码
 
 		String password = "123456";
-		String dbserver = null;
-		String ipAddr =null;
-		int port = 0;
-		String dbUser = null;
-		String dbPassword = null;
-		String schema = null;
-		String parent = null;
+		
 		try {
 
 		// 加载驱动程序
@@ -81,7 +171,7 @@ public class GetDbServerById extends PostfixCommand {
 				port = rs.getInt("port");
 				dbUser = rs.getString("dbUser");
 				dbPassword = rs.getString("dbPassword");
-				schema = rs.getString("dbPassword");
+				schema = rs.getString("schema");
 				parent = rs.getString("parent");
 				System.out.println(dbserver);
 			}
@@ -94,7 +184,7 @@ public class GetDbServerById extends PostfixCommand {
 			e.printStackTrace();   
 			} catch(Exception e) {   
 			e.printStackTrace();   
-			}
+			}*/
 		
 		if(DbServerUtil.isExists(dbserver)){
 			return dbserver;

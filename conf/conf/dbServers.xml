@@ -61,7 +61,7 @@
 		</factoryConfig>
 	</dbServer> -->
 	
-	<dbServer name="jdbcserver" abstractive="true">
+	<dbServer name="jdbcserver" >
 		<factoryConfig class="com.meidusa.amoeba.jdbc.JdbcConnectionFactory">
 			<property name="driver">  
                     <bean class="com.meidusa.amoeba.jdbc.DriverWrapper">  
@@ -73,13 +73,13 @@
                   
                    
                 <!-- jdbc url. -->  
-                <property name="url">jdbc:mysql://192.168.1.9:3306/trade</property>  
+                <property name="url">jdbc:mysql://127.0.0.1:3306/trade</property>  
                   
                 <!-- url -->  
                 <property name="properties">  
                     <bean class="java.util.Properties">  
                         <property name="user">root</property>  
-                        <property name="password"></property>  
+                        <property name="password">123456</property>  
                     </bean>  
                 </property>
 		</factoryConfig>
