@@ -9,6 +9,7 @@ import java.sql.Statement;
 import com.meidusa.amoeba.sqljep.ASTFunNode;
 import com.meidusa.amoeba.sqljep.JepRuntime;
 import com.meidusa.amoeba.sqljep.ParseException;
+import com.meidusa.amoeba.util.DbServerUtil;
 
 /**
  * 
@@ -16,6 +17,13 @@ import com.meidusa.amoeba.sqljep.ParseException;
  *
  */
 public class GetDbServerById extends PostfixCommand {
+	
+	private String        poolName;
+	
+	public void setPoolName(String poolName) {
+		this.poolName = poolName;
+	}
+
 	final public int getNumberOfParameters() {
 		return 1;
 	}
@@ -44,6 +52,12 @@ public class GetDbServerById extends PostfixCommand {
 
 		String password = "123456";
 		String dbserver = null;
+		String ipAddr =null;
+		int port = 0;
+		String dbUser = null;
+		String dbPassword = null;
+		String schema = null;
+		String parent = null;
 		try {
 
 		// 加载驱动程序
@@ -58,13 +72,19 @@ public class GetDbServerById extends PostfixCommand {
 
 		System.out.println("Succeeded connecting to the Database!");
 		
-		String sqlStr = "select  dbserver from user_dbserver where userId="+param;
+		String sqlStr = "select * from user_dbserver where userId="+param;
 		 Statement stmt = conn.createStatement() ;  
 		 ResultSet rs = stmt.executeQuery(sqlStr) ; 
-		 while(rs.next()){
-			 dbserver = rs.getString("dbserver");
-			 System.out.println(dbserver);   
-		 }
+			while (rs.next()) {
+				dbserver = rs.getString("dbserver");
+				ipAddr = rs.getString("ipAddr");;
+				port = rs.getInt("port");
+				dbUser = rs.getString("dbUser");
+				dbPassword = rs.getString("dbPassword");
+				schema = rs.getString("dbPassword");
+				parent = rs.getString("parent");
+				System.out.println(dbserver);
+			}
 		
 		conn.close();
 		}catch(ClassNotFoundException e) {   
@@ -76,7 +96,17 @@ public class GetDbServerById extends PostfixCommand {
 			e.printStackTrace();   
 			}
 		
-		return dbserver;
+		if(DbServerUtil.isExists(dbserver)){
+			return dbserver;
+		}else{
+			boolean flag = DbServerUtil.createDbServer(dbserver, ipAddr, port, dbUser, dbPassword, schema, parent);
+			if(flag){
+				return dbserver;
+			}else {
+				return null;
+			}
+		}
+		
 	}
 
 	public Comparable<?> getResult(Comparable<?>... comparables)

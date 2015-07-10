@@ -2,8 +2,8 @@
 <!DOCTYPE amoeba:rule SYSTEM "rule.dtd">
 
 <amoeba:rule xmlns:amoeba="http://amoeba.meidusa.com/">
-	<tableRule name="t_traderatebad" schema="trade" defaultPools="server1,server2">
-		
+	<!-- <tableRule name="t_traderatebad" schema="trade" defaultPools="server1,server2"> -->
+		<tableRule name="t_traderatebad" schema="trade">
 		<!-- <rule name="rule1">
 			<parameters>ID</parameters>
 			<expression><![CDATA[ ID <= 1000000]]></expression>

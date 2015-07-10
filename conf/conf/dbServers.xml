@@ -49,17 +49,17 @@
 		</factoryConfig>
 	</dbServer>
 	
-	<dbServer name="server2"  parent="abstractServer">
+	<!-- <dbServer name="server2"  parent="abstractServer">
 		<factoryConfig>
-			<!-- mysql ip -->
+			mysql ip
 			<property name="ipAddress">127.0.0.1</property>
-			<!-- mysql user -->
-			<!-- <property name="user">root</property> -->
+			mysql user
+			<property name="user">root</property>
 			
-			<!--  mysql password-->
-			<!-- <property name="password">123456</property> -->
+			 mysql password
+			<property name="password">123456</property>
 		</factoryConfig>
-	</dbServer>
+	</dbServer> -->
 	
 	<dbServer name="jdbcserver" abstractive="true">
 		<factoryConfig class="com.meidusa.amoeba.jdbc.JdbcConnectionFactory">
@@ -100,7 +100,7 @@
 			<property name="loadbalance">1</property>
 			
 			<!-- Separated by commas,such as: server1,server2,server1 -->
-			<property name="poolNames">server1,server2</property> <!-- ,server2 -->
+			<property name="poolNames">server1</property> <!-- ,server2 -->
 		</poolConfig>
 	</dbServer>
 		

@@ -564,12 +564,16 @@ public class ProxyRuntimeContext implements Reporter {
 		ObjectPool pool = null;
 		try {
             BeanObjectEntityConfig poolConfig = config.getPoolConfig();
-            pool = (ObjectPool) createBeanObjectEntity(poolConfig,true);
+            //pool = (ObjectPool) createBeanObjectEntity(poolConfig,true);
+            //改为和init那里那样使用poolConfig.createBeanObject modified by CZX 2015-7-10
+            pool = (ObjectPool) poolConfig.createBeanObject(true,conMgrMap);
             pool.setName(StringUtil.isEmpty(poolConfig.getName())?config.getName():poolConfig.getName());
             
             if (config.getFactoryConfig() != null) {
-                PoolableObjectFactory factory = (PoolableObjectFactory) createBeanObjectEntity(config.getFactoryConfig(),true);
-                pool.setFactory(factory);
+            	//改为和init那里那样使用poolConfig.createBeanObject modified by CZX 2015-7-10
+                //PoolableObjectFactory factory = (PoolableObjectFactory) createBeanObjectEntity(config.getFactoryConfig(),true);
+            	PoolableObjectFactory factory = (PoolableObjectFactory) config.getFactoryConfig().createBeanObject(true,conMgrMap);
+            	pool.setFactory(factory);
             }
         } catch (Exception e) {
             throw new ConfigurationException("createBean error", e);
@@ -719,5 +723,91 @@ public class ProxyRuntimeContext implements Reporter {
 				this.getConfig().addServer(sourceConfig.getName(),sourceConfig);
 			}
 		}
+	}
+	
+	/**
+	 * @param sourceConfig
+	 * @throws ConfigurationException
+	 * @author CZX
+	 * @date 2015-7-10
+	 */
+	public void createDbServer(DBServerConfig sourceConfig)
+			throws ConfigurationException {
+		boolean abstractive = sourceConfig.getAbstractive();
+
+		if (sourceConfig == null || StringUtil.isEmpty(sourceConfig.getName())) {
+			throw new ConfigurationException(
+					"config or config's name cannot be null");
+		}
+
+
+		
+		/**
+		 * close old objectPool
+		 * if this configuration is abstractive then close all children's objectPools 
+		 * else the old ObjectPool will be closed
+		 * 
+		 */
+		this.getConfig().addServer(sourceConfig.getName(),sourceConfig);
+		
+		if (!abstractive) {
+			DBServerConfig config = (DBServerConfig)sourceConfig.clone();
+			if (sourceConfig.getParent() != null) {
+				DBServerConfig parent = this.getConfig().getDbServers().get(sourceConfig.getParent());
+				if (parent == null) {
+					throw new ConfigurationException("parent config withe name=" + sourceConfig.getParent() + " not found");
+				}
+
+				this.inheritDBServerConfig(parent, config);
+			}
+			
+			ObjectPool pool = createObjectPool(config);
+			
+			
+			//close old ObjectPool
+			ObjectPool oldObjectPool = this.getPoolMap().get(config.getName());
+			
+			poolMap.put(config.getName(), pool);
+			this.notifyAllContextChangedListener();
+			if(oldObjectPool != null){
+				
+				//MultipleLoadBalanceObjectPool not to be closed;
+				if(!(oldObjectPool instanceof MultipleLoadBalanceObjectPool)){
+					CloseObjectPoolHeartbeatDelayed delay = new CloseObjectPoolHeartbeatDelayed(5,TimeUnit.SECONDS,oldObjectPool);
+					HeartbeatManager.addHeartbeat(delay);
+				}
+			}
+		}else{
+			//close all children's ObjectPools
+			Map<String,DBServerConfig> dbServerConfigs = this.getConfig().getDbServers();
+			for(Map.Entry<String,DBServerConfig> entry : dbServerConfigs.entrySet()){
+				if(StringUtil.equals(entry.getValue().getParent(),sourceConfig.getName())){
+					if(!entry.getValue().getAbstractive()){
+						DBServerConfig child = (DBServerConfig)entry.getValue().clone();
+						this.inheritDBServerConfig(sourceConfig, child);
+						
+						ObjectPool pool = createObjectPool(child);
+						
+						//close old ObjectPool
+						ObjectPool oldObjectPool = this.getPoolMap().get(child.getName());
+						
+						poolMap.put(child.getName(), pool);
+						this.notifyAllContextChangedListener();
+						if(oldObjectPool != null){
+							
+							//MultipleLoadBalanceObjectPool not to be closed;
+							if(!(oldObjectPool instanceof MultipleLoadBalanceObjectPool)){
+								CloseObjectPoolHeartbeatDelayed delay = new CloseObjectPoolHeartbeatDelayed(5,TimeUnit.SECONDS,oldObjectPool);
+								HeartbeatManager.addHeartbeat(delay);
+							}
+						}
+					}
+				}
+			}
+			
+			this.getConfig().addServer(sourceConfig.getName(),sourceConfig);
+		}
+	
+
 	}
 }
