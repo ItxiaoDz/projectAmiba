@@ -1,0 +1,222 @@
+2015-07-09 16:26:09,376 ERROR handler.MySqlCommandDispatcher - start Session error:
+java.util.NoSuchElementException: Could not create a validated object, cause: ValidateObject failed
+	at org.apache.commons.pool.impl.GenericObjectPool.borrowObject(GenericObjectPool.java:1191)
+	at com.meidusa.amoeba.net.poolable.GenericObjectPool.borrowObject(GenericObjectPool.java:381)
+	at com.meidusa.amoeba.mysql.handler.CommandMessageHandler.startSession(CommandMessageHandler.java:633)
+	at com.meidusa.amoeba.mysql.handler.MySqlCommandDispatcher.handleMessage(MySqlCommandDispatcher.java:123)
+	at com.meidusa.amoeba.mysql.net.MysqlClientConnection$2.run(MysqlClientConnection.java:291)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.lang.Thread.run(Unknown Source)
+2015-07-09 16:26:09,378 ERROR handler.CommandMessageHandler - <<---client connection=192.168.1.9:60920,source handler ischanged=false,
+ session Handler=class=com.meidusa.amoeba.mysql.handler.QueryCommandMessageHandler,createTime=1436430369375,endTime=1436430369377,lastTimeMillis=1436430369374,ended=true,forceEnded=true,started=false,ServerConnectionSize=1, sql=select count(1) from t_traderatebad where userId=266303153----->>
+<----start-connection=192.168.1.200:3306,queueSize=0,manager=defaultManager-1,managerRunning=true,selectorOpened=true-------
+<----end connection:192.168.1.200:3306------>
+
+2015-07-09 16:26:09,379 ERROR handler.MySqlCommandDispatcher - messageDispate error
+java.util.NoSuchElementException: Could not create a validated object, cause: ValidateObject failed
+	at org.apache.commons.pool.impl.GenericObjectPool.borrowObject(GenericObjectPool.java:1191)
+	at com.meidusa.amoeba.net.poolable.GenericObjectPool.borrowObject(GenericObjectPool.java:381)
+	at com.meidusa.amoeba.mysql.handler.CommandMessageHandler.startSession(CommandMessageHandler.java:633)
+	at com.meidusa.amoeba.mysql.handler.MySqlCommandDispatcher.handleMessage(MySqlCommandDispatcher.java:123)
+	at com.meidusa.amoeba.mysql.net.MysqlClientConnection$2.run(MysqlClientConnection.java:291)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.lang.Thread.run(Unknown Source)
+2015-07-09 16:26:29,019 ERROR handler.MySqlCommandDispatcher - start Session error:
+java.util.NoSuchElementException: Could not create a validated object, cause: ValidateObject failed
+	at org.apache.commons.pool.impl.GenericObjectPool.borrowObject(GenericObjectPool.java:1191)
+	at com.meidusa.amoeba.net.poolable.GenericObjectPool.borrowObject(GenericObjectPool.java:381)
+	at com.meidusa.amoeba.mysql.handler.CommandMessageHandler.startSession(CommandMessageHandler.java:633)
+	at com.meidusa.amoeba.mysql.handler.MySqlCommandDispatcher.handleMessage(MySqlCommandDispatcher.java:123)
+	at com.meidusa.amoeba.mysql.net.MysqlClientConnection$2.run(MysqlClientConnection.java:291)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.lang.Thread.run(Unknown Source)
+2015-07-09 16:26:29,020 ERROR handler.CommandMessageHandler - <<---client connection=192.168.1.9:60935,source handler ischanged=false,
+ session Handler=class=com.meidusa.amoeba.mysql.handler.QueryCommandMessageHandler,createTime=1436430389013,endTime=1436430389020,lastTimeMillis=1436430389011,ended=true,forceEnded=true,started=false,ServerConnectionSize=1, sql=select count(1) from t_traderatebad where userId=266303153----->>
+<----start-connection=192.168.1.200:3306,queueSize=0,manager=defaultManager-1,managerRunning=true,selectorOpened=true-------
+<----end connection:192.168.1.200:3306------>
+
+2015-07-09 16:26:29,022 ERROR handler.MySqlCommandDispatcher - messageDispate error
+java.util.NoSuchElementException: Could not create a validated object, cause: ValidateObject failed
+	at org.apache.commons.pool.impl.GenericObjectPool.borrowObject(GenericObjectPool.java:1191)
+	at com.meidusa.amoeba.net.poolable.GenericObjectPool.borrowObject(GenericObjectPool.java:381)
+	at com.meidusa.amoeba.mysql.handler.CommandMessageHandler.startSession(CommandMessageHandler.java:633)
+	at com.meidusa.amoeba.mysql.handler.MySqlCommandDispatcher.handleMessage(MySqlCommandDispatcher.java:123)
+	at com.meidusa.amoeba.mysql.net.MysqlClientConnection$2.run(MysqlClientConnection.java:291)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.lang.Thread.run(Unknown Source)
+2015-07-09 16:33:49,773 ERROR handler.MySqlCommandDispatcher - start Session error:
+java.util.NoSuchElementException: Could not create a validated object, cause: ValidateObject failed
+	at org.apache.commons.pool.impl.GenericObjectPool.borrowObject(GenericObjectPool.java:1191)
+	at com.meidusa.amoeba.net.poolable.GenericObjectPool.borrowObject(GenericObjectPool.java:381)
+	at com.meidusa.amoeba.mysql.handler.CommandMessageHandler.startSession(CommandMessageHandler.java:633)
+	at com.meidusa.amoeba.mysql.handler.MySqlCommandDispatcher.handleMessage(MySqlCommandDispatcher.java:123)
+	at com.meidusa.amoeba.mysql.net.MysqlClientConnection$2.run(MysqlClientConnection.java:291)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.lang.Thread.run(Unknown Source)
+2015-07-09 16:33:49,775 ERROR handler.CommandMessageHandler - <<---client connection=192.168.1.9:61174,source handler ischanged=false,
+ session Handler=class=com.meidusa.amoeba.mysql.handler.QueryCommandMessageHandler,createTime=1436430828883,endTime=1436430829774,lastTimeMillis=1436430828881,ended=true,forceEnded=true,started=false,ServerConnectionSize=1, sql=select count(1) from t_traderatebad where userId=266303153----->>
+<----start-connection=192.168.1.200:3306,queueSize=0,manager=defaultManager-1,managerRunning=true,selectorOpened=true-------
+<----end connection:192.168.1.200:3306------>
+
+2015-07-09 16:33:49,810 ERROR handler.MySqlCommandDispatcher - messageDispate error
+java.util.NoSuchElementException: Could not create a validated object, cause: ValidateObject failed
+	at org.apache.commons.pool.impl.GenericObjectPool.borrowObject(GenericObjectPool.java:1191)
+	at com.meidusa.amoeba.net.poolable.GenericObjectPool.borrowObject(GenericObjectPool.java:381)
+	at com.meidusa.amoeba.mysql.handler.CommandMessageHandler.startSession(CommandMessageHandler.java:633)
+	at com.meidusa.amoeba.mysql.handler.MySqlCommandDispatcher.handleMessage(MySqlCommandDispatcher.java:123)
+	at com.meidusa.amoeba.mysql.net.MysqlClientConnection$2.run(MysqlClientConnection.java:291)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.lang.Thread.run(Unknown Source)
+2015-07-09 16:36:39,057 ERROR handler.MySqlCommandDispatcher - start Session error:
+java.util.NoSuchElementException: Could not create a validated object, cause: ValidateObject failed
+	at org.apache.commons.pool.impl.GenericObjectPool.borrowObject(GenericObjectPool.java:1191)
+	at com.meidusa.amoeba.net.poolable.GenericObjectPool.borrowObject(GenericObjectPool.java:381)
+	at com.meidusa.amoeba.mysql.handler.CommandMessageHandler.startSession(CommandMessageHandler.java:633)
+	at com.meidusa.amoeba.mysql.handler.MySqlCommandDispatcher.handleMessage(MySqlCommandDispatcher.java:123)
+	at com.meidusa.amoeba.mysql.net.MysqlClientConnection$2.run(MysqlClientConnection.java:291)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.lang.Thread.run(Unknown Source)
+2015-07-09 16:36:39,058 ERROR handler.CommandMessageHandler - <<---client connection=192.168.1.9:61197,source handler ischanged=false,
+ session Handler=class=com.meidusa.amoeba.mysql.handler.QueryCommandMessageHandler,createTime=1436430921126,endTime=1436430999058,lastTimeMillis=1436430921122,ended=true,forceEnded=true,started=false,ServerConnectionSize=1, sql=select count(1) from t_traderatebad where userId=266303153----->>
+<----start-connection=192.168.1.200:3306,queueSize=0,manager=defaultManager-3,managerRunning=true,selectorOpened=true-------
+<----end connection:192.168.1.200:3306------>
+
+2015-07-09 16:36:39,068 ERROR handler.CommandMessageHandler - <<---client connection=192.168.1.9:61197,source handler ischanged=false,
+ session Handler=class=com.meidusa.amoeba.mysql.handler.QueryCommandMessageHandler,createTime=1436430921126,endTime=1436430999058,lastTimeMillis=1436430921122,ended=true,forceEnded=true,started=false,ServerConnectionSize=1, sql=select count(1) from t_traderatebad where userId=266303153----->>
+<----start-connection=192.168.1.200:3306,queueSize=0,manager=defaultManager-3,managerRunning=true,selectorOpened=true-------
+<----end connection:192.168.1.200:3306------>
+
+2015-07-09 16:36:39,071 ERROR handler.MySqlCommandDispatcher - messageDispate error
+java.util.NoSuchElementException: Could not create a validated object, cause: ValidateObject failed
+	at org.apache.commons.pool.impl.GenericObjectPool.borrowObject(GenericObjectPool.java:1191)
+	at com.meidusa.amoeba.net.poolable.GenericObjectPool.borrowObject(GenericObjectPool.java:381)
+	at com.meidusa.amoeba.mysql.handler.CommandMessageHandler.startSession(CommandMessageHandler.java:633)
+	at com.meidusa.amoeba.mysql.handler.MySqlCommandDispatcher.handleMessage(MySqlCommandDispatcher.java:123)
+	at com.meidusa.amoeba.mysql.net.MysqlClientConnection$2.run(MysqlClientConnection.java:291)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.lang.Thread.run(Unknown Source)
+2015-07-09 17:09:51,777 ERROR handler.MySqlCommandDispatcher - start Session error:
+java.util.NoSuchElementException: Could not create a validated object, cause: ValidateObject failed
+	at org.apache.commons.pool.impl.GenericObjectPool.borrowObject(GenericObjectPool.java:1191)
+	at com.meidusa.amoeba.net.poolable.GenericObjectPool.borrowObject(GenericObjectPool.java:381)
+	at com.meidusa.amoeba.mysql.handler.CommandMessageHandler.startSession(CommandMessageHandler.java:633)
+	at com.meidusa.amoeba.mysql.handler.MySqlCommandDispatcher.handleMessage(MySqlCommandDispatcher.java:123)
+	at com.meidusa.amoeba.mysql.net.MysqlClientConnection$2.run(MysqlClientConnection.java:291)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.lang.Thread.run(Unknown Source)
+2015-07-09 17:09:51,778 ERROR handler.CommandMessageHandler - <<---client connection=192.168.1.9:62661,source handler ischanged=false,
+ session Handler=class=com.meidusa.amoeba.mysql.handler.QueryCommandMessageHandler,createTime=1436432954601,endTime=1436432991778,lastTimeMillis=1436432954598,ended=true,forceEnded=true,started=false,ServerConnectionSize=1, sql=select count(1) from t_traderatebad where userId=266303153----->>
+<----start-connection=192.168.1.200:3306,queueSize=0,manager=defaultManager-1,managerRunning=true,selectorOpened=true-------
+<----end connection:192.168.1.200:3306------>
+
+2015-07-09 17:09:51,789 ERROR handler.MySqlCommandDispatcher - messageDispate error
+java.util.NoSuchElementException: Could not create a validated object, cause: ValidateObject failed
+	at org.apache.commons.pool.impl.GenericObjectPool.borrowObject(GenericObjectPool.java:1191)
+	at com.meidusa.amoeba.net.poolable.GenericObjectPool.borrowObject(GenericObjectPool.java:381)
+	at com.meidusa.amoeba.mysql.handler.CommandMessageHandler.startSession(CommandMessageHandler.java:633)
+	at com.meidusa.amoeba.mysql.handler.MySqlCommandDispatcher.handleMessage(MySqlCommandDispatcher.java:123)
+	at com.meidusa.amoeba.mysql.net.MysqlClientConnection$2.run(MysqlClientConnection.java:291)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.lang.Thread.run(Unknown Source)
+2015-07-09 17:14:16,952 ERROR handler.MySqlCommandDispatcher - start Session error:
+java.util.NoSuchElementException: Could not create a validated object, cause: ValidateObject failed
+	at org.apache.commons.pool.impl.GenericObjectPool.borrowObject(GenericObjectPool.java:1191)
+	at com.meidusa.amoeba.net.poolable.GenericObjectPool.borrowObject(GenericObjectPool.java:381)
+	at com.meidusa.amoeba.mysql.handler.CommandMessageHandler.startSession(CommandMessageHandler.java:633)
+	at com.meidusa.amoeba.mysql.handler.MySqlCommandDispatcher.handleMessage(MySqlCommandDispatcher.java:123)
+	at com.meidusa.amoeba.mysql.net.MysqlClientConnection$2.run(MysqlClientConnection.java:291)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.lang.Thread.run(Unknown Source)
+2015-07-09 17:14:16,953 ERROR handler.CommandMessageHandler - <<---client connection=192.168.1.9:62835,source handler ischanged=false,
+ session Handler=class=com.meidusa.amoeba.mysql.handler.QueryCommandMessageHandler,createTime=1436433231681,endTime=1436433256953,lastTimeMillis=1436433231680,ended=true,forceEnded=true,started=false,ServerConnectionSize=1, sql=select count(1) from t_traderatebad where userId=266303153----->>
+<----start-connection=192.168.1.200:3306,queueSize=0,manager=defaultManager-1,managerRunning=true,selectorOpened=true-------
+<----end connection:192.168.1.200:3306------>
+
+2015-07-09 17:14:16,966 ERROR handler.MySqlCommandDispatcher - messageDispate error
+java.util.NoSuchElementException: Could not create a validated object, cause: ValidateObject failed
+	at org.apache.commons.pool.impl.GenericObjectPool.borrowObject(GenericObjectPool.java:1191)
+	at com.meidusa.amoeba.net.poolable.GenericObjectPool.borrowObject(GenericObjectPool.java:381)
+	at com.meidusa.amoeba.mysql.handler.CommandMessageHandler.startSession(CommandMessageHandler.java:633)
+	at com.meidusa.amoeba.mysql.handler.MySqlCommandDispatcher.handleMessage(MySqlCommandDispatcher.java:123)
+	at com.meidusa.amoeba.mysql.net.MysqlClientConnection$2.run(MysqlClientConnection.java:291)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.lang.Thread.run(Unknown Source)
+2015-07-09 17:49:43,035 ERROR handler.MySqlCommandDispatcher - messageDispate error
+java.lang.RuntimeException: cannot found Pool=false,sqlObject={sql=[select count(1) rowcount from t_traderatebad where userId=636016020], parameter=[]}
+	at com.meidusa.amoeba.route.AbstractQueryRouter.selectPool(AbstractQueryRouter.java:418)
+	at com.meidusa.amoeba.mysql.parser.MysqlQueryRouter.selectPool(MysqlQueryRouter.java:59)
+	at com.meidusa.amoeba.mysql.parser.MysqlQueryRouter.selectPool(MysqlQueryRouter.java:1)
+	at com.meidusa.amoeba.route.AbstractQueryRouter.doRoute(AbstractQueryRouter.java:111)
+	at com.meidusa.amoeba.mysql.handler.MySqlCommandDispatcher.handleMessage(MySqlCommandDispatcher.java:99)
+	at com.meidusa.amoeba.mysql.net.MysqlClientConnection$2.run(MysqlClientConnection.java:291)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.lang.Thread.run(Unknown Source)
+2015-07-09 17:52:35,178 ERROR handler.MySqlCommandDispatcher - messageDispate error
+java.lang.RuntimeException: cannot found Pool=false,sqlObject={sql=[select count(1) rowcount from t_traderatebad where userId=636016020], parameter=[]}
+	at com.meidusa.amoeba.route.AbstractQueryRouter.selectPool(AbstractQueryRouter.java:418)
+	at com.meidusa.amoeba.mysql.parser.MysqlQueryRouter.selectPool(MysqlQueryRouter.java:59)
+	at com.meidusa.amoeba.mysql.parser.MysqlQueryRouter.selectPool(MysqlQueryRouter.java:1)
+	at com.meidusa.amoeba.route.AbstractQueryRouter.doRoute(AbstractQueryRouter.java:111)
+	at com.meidusa.amoeba.mysql.handler.MySqlCommandDispatcher.handleMessage(MySqlCommandDispatcher.java:99)
+	at com.meidusa.amoeba.mysql.net.MysqlClientConnection$2.run(MysqlClientConnection.java:291)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.lang.Thread.run(Unknown Source)
+2015-07-09 17:53:53,882 ERROR handler.MySqlCommandDispatcher - messageDispate error
+java.lang.RuntimeException: cannot found Pool=false,sqlObject={sql=[select count(1) rowcount from t_traderatebad where userId=636016020], parameter=[]}
+	at com.meidusa.amoeba.route.AbstractQueryRouter.selectPool(AbstractQueryRouter.java:418)
+	at com.meidusa.amoeba.mysql.parser.MysqlQueryRouter.selectPool(MysqlQueryRouter.java:59)
+	at com.meidusa.amoeba.mysql.parser.MysqlQueryRouter.selectPool(MysqlQueryRouter.java:1)
+	at com.meidusa.amoeba.route.AbstractQueryRouter.doRoute(AbstractQueryRouter.java:111)
+	at com.meidusa.amoeba.mysql.handler.MySqlCommandDispatcher.handleMessage(MySqlCommandDispatcher.java:99)
+	at com.meidusa.amoeba.mysql.net.MysqlClientConnection$2.run(MysqlClientConnection.java:291)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.lang.Thread.run(Unknown Source)
+2015-07-09 17:58:06,661 ERROR handler.MySqlCommandDispatcher - messageDispate error
+java.lang.RuntimeException: cannot found Pool=false,sqlObject={sql=[select count(1) rowcount from t_traderatebad where userId=636016020], parameter=[]}
+	at com.meidusa.amoeba.route.AbstractQueryRouter.selectPool(AbstractQueryRouter.java:418)
+	at com.meidusa.amoeba.mysql.parser.MysqlQueryRouter.selectPool(MysqlQueryRouter.java:59)
+	at com.meidusa.amoeba.mysql.parser.MysqlQueryRouter.selectPool(MysqlQueryRouter.java:1)
+	at com.meidusa.amoeba.route.AbstractQueryRouter.doRoute(AbstractQueryRouter.java:111)
+	at com.meidusa.amoeba.mysql.handler.MySqlCommandDispatcher.handleMessage(MySqlCommandDispatcher.java:99)
+	at com.meidusa.amoeba.mysql.net.MysqlClientConnection$2.run(MysqlClientConnection.java:291)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.lang.Thread.run(Unknown Source)
+2015-07-09 18:00:52,124 ERROR handler.MySqlCommandDispatcher - messageDispate error
+java.lang.RuntimeException: cannot found Pool=false,sqlObject={sql=[select count(1) rowcount from t_traderatebad where userId=636016020], parameter=[]}
+	at com.meidusa.amoeba.route.AbstractQueryRouter.selectPool(AbstractQueryRouter.java:418)
+	at com.meidusa.amoeba.mysql.parser.MysqlQueryRouter.selectPool(MysqlQueryRouter.java:59)
+	at com.meidusa.amoeba.mysql.parser.MysqlQueryRouter.selectPool(MysqlQueryRouter.java:1)
+	at com.meidusa.amoeba.route.AbstractQueryRouter.doRoute(AbstractQueryRouter.java:111)
+	at com.meidusa.amoeba.mysql.handler.MySqlCommandDispatcher.handleMessage(MySqlCommandDispatcher.java:99)
+	at com.meidusa.amoeba.mysql.net.MysqlClientConnection$2.run(MysqlClientConnection.java:291)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.lang.Thread.run(Unknown Source)
+2015-07-09 18:13:51,872 ERROR handler.MySqlCommandDispatcher - messageDispate error
+java.lang.NullPointerException
+	at com.meidusa.amoeba.route.AbstractQueryRouter.evaluate(AbstractQueryRouter.java:277)
+	at com.meidusa.amoeba.route.AbstractQueryRouter.selectPool(AbstractQueryRouter.java:411)
+	at com.meidusa.amoeba.mysql.parser.MysqlQueryRouter.selectPool(MysqlQueryRouter.java:59)
+	at com.meidusa.amoeba.mysql.parser.MysqlQueryRouter.selectPool(MysqlQueryRouter.java:1)
+	at com.meidusa.amoeba.route.AbstractQueryRouter.doRoute(AbstractQueryRouter.java:111)
+	at com.meidusa.amoeba.mysql.handler.MySqlCommandDispatcher.handleMessage(MySqlCommandDispatcher.java:99)
+	at com.meidusa.amoeba.mysql.net.MysqlClientConnection$2.run(MysqlClientConnection.java:291)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.lang.Thread.run(Unknown Source)

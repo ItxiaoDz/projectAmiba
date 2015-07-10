@@ -1,0 +1,95 @@
+2015-07-09 14:05:18,585 INFO  context.MysqlRuntimeContext - Amoeba for Mysql current versoin=5.1.45-mysql-amoeba-proxy-2.2.0
+2015-07-09 14:09:55,808 INFO  context.MysqlRuntimeContext - Amoeba for Mysql current versoin=5.1.45-mysql-amoeba-proxy-2.2.0
+2015-07-09 14:12:49,631 INFO  context.MysqlRuntimeContext - Amoeba for Mysql current versoin=5.1.45-mysql-amoeba-proxy-2.2.0
+2015-07-09 14:13:38,123 INFO  context.MysqlRuntimeContext - Amoeba for Mysql current versoin=5.1.45-mysql-amoeba-proxy-2.2.0
+2015-07-09 14:23:56,769 INFO  context.MysqlRuntimeContext - Amoeba for Mysql current versoin=5.1.45-mysql-amoeba-proxy-2.2.0
+2015-07-09 14:30:21,886 INFO  context.MysqlRuntimeContext - Amoeba for Mysql current versoin=5.1.45-mysql-amoeba-proxy-2.2.0
+2015-07-09 14:36:53,649 INFO  context.MysqlRuntimeContext - Amoeba for Mysql current versoin=5.1.45-mysql-amoeba-proxy-2.2.0
+2015-07-09 14:38:54,564 INFO  context.MysqlRuntimeContext - Amoeba for Mysql current versoin=5.1.45-mysql-amoeba-proxy-2.2.0
+2015-07-09 16:14:13,558 INFO  context.MysqlRuntimeContext - Amoeba for Mysql current versoin=5.1.45-mysql-amoeba-proxy-2.2.0
+2015-07-09 16:18:05,531 INFO  context.MysqlRuntimeContext - Amoeba for Mysql current versoin=5.1.45-mysql-amoeba-proxy-2.2.0
+2015-07-09 16:18:37,343 INFO  context.MysqlRuntimeContext - Amoeba for Mysql current versoin=5.1.45-mysql-amoeba-proxy-2.2.0
+2015-07-09 16:18:37,709 INFO  net.ServerableConnectionManager - Amoeba for Mysql listening on 0.0.0.0/0.0.0.0:8066.
+2015-07-09 16:18:37,769 INFO  net.ServerableConnectionManager - Amoeba Monitor Server listening on /127.0.0.1:24965.
+2015-07-09 16:22:54,177 INFO  context.MysqlRuntimeContext - Amoeba for Mysql current versoin=5.1.45-mysql-amoeba-proxy-2.2.0
+2015-07-09 16:23:26,195 INFO  context.MysqlRuntimeContext - Amoeba for Mysql current versoin=5.1.45-mysql-amoeba-proxy-2.2.0
+2015-07-09 16:23:26,468 INFO  net.ServerableConnectionManager - Amoeba for Mysql listening on 0.0.0.0/0.0.0.0:8066.
+2015-07-09 16:23:26,476 INFO  net.ServerableConnectionManager - Amoeba Monitor Server listening on /127.0.0.1:43944.
+2015-07-09 16:26:04,179 INFO  context.MysqlRuntimeContext - Amoeba for Mysql current versoin=5.1.45-mysql-amoeba-proxy-2.2.0
+2015-07-09 16:26:04,418 INFO  net.ServerableConnectionManager - Amoeba for Mysql listening on 0.0.0.0/0.0.0.0:8066.
+2015-07-09 16:26:04,423 INFO  net.ServerableConnectionManager - Amoeba Monitor Server listening on /127.0.0.1:10574.
+2015-07-09 16:26:09,079 INFO  server.MysqlClientAuthenticator - Accepting conn=com.meidusa.amoeba.mysql.net.MysqlClientConnection@192.168.1.9:60920,hashcode=909447022
+2015-07-09 16:26:24,277 INFO  server.MysqlClientAuthenticator - Accepting conn=com.meidusa.amoeba.mysql.net.MysqlClientConnection@192.168.1.9:60935,hashcode=508905937
+2015-07-09 16:33:12,569 INFO  context.MysqlRuntimeContext - Amoeba for Mysql current versoin=5.1.45-mysql-amoeba-proxy-2.2.0
+2015-07-09 16:33:22,583 INFO  net.ServerableConnectionManager - Amoeba Monitor Server listening on /127.0.0.1:8083.
+2015-07-09 16:33:22,583 INFO  net.ServerableConnectionManager - Amoeba for Mysql listening on 0.0.0.0/0.0.0.0:8066.
+2015-07-09 16:33:37,213 INFO  server.MysqlClientAuthenticator - Accepting conn=com.meidusa.amoeba.mysql.net.MysqlClientConnection@192.168.1.9:61174,hashcode=1572683631
+2015-07-09 16:34:18,131 INFO  server.MysqlClientAuthenticator - Accepting conn=com.meidusa.amoeba.mysql.net.MysqlClientConnection@192.168.1.9:61197,hashcode=477426518
+2015-07-09 17:08:15,123 INFO  context.MysqlRuntimeContext - Amoeba for Mysql current versoin=5.1.45-mysql-amoeba-proxy-2.2.0
+2015-07-09 17:08:18,330 INFO  net.ServerableConnectionManager - Amoeba for Mysql listening on 0.0.0.0/0.0.0.0:8066.
+2015-07-09 17:08:18,371 INFO  net.ServerableConnectionManager - Amoeba Monitor Server listening on /127.0.0.1:9483.
+2015-07-09 17:08:45,668 INFO  server.MysqlClientAuthenticator - Accepting conn=com.meidusa.amoeba.mysql.net.MysqlClientConnection@192.168.1.9:62661,hashcode=1148214145
+2015-07-09 17:12:19,479 INFO  context.MysqlRuntimeContext - Amoeba for Mysql current versoin=5.1.45-mysql-amoeba-proxy-2.2.0
+2015-07-09 17:12:44,555 INFO  net.ServerableConnectionManager - Amoeba for Mysql listening on 0.0.0.0/0.0.0.0:8066.
+2015-07-09 17:12:44,560 INFO  net.ServerableConnectionManager - Amoeba Monitor Server listening on /127.0.0.1:22170.
+2015-07-09 17:13:11,988 INFO  server.MysqlClientAuthenticator - Accepting conn=com.meidusa.amoeba.mysql.net.MysqlClientConnection@192.168.1.9:62835,hashcode=2142220333
+2015-07-09 17:17:29,409 INFO  context.MysqlRuntimeContext - Amoeba for Mysql current versoin=5.1.45-mysql-amoeba-proxy-2.2.0
+2015-07-09 17:17:29,654 INFO  net.ServerableConnectionManager - Amoeba for Mysql listening on 0.0.0.0/0.0.0.0:8066.
+2015-07-09 17:17:29,656 INFO  net.ServerableConnectionManager - Amoeba Monitor Server listening on /127.0.0.1:51566.
+2015-07-09 17:17:42,502 INFO  context.MysqlRuntimeContext - Amoeba for Mysql current versoin=5.1.45-mysql-amoeba-proxy-2.2.0
+2015-07-09 17:17:57,443 INFO  net.ServerableConnectionManager - Amoeba for Mysql listening on 0.0.0.0/0.0.0.0:8066.
+2015-07-09 17:17:57,443 INFO  net.ServerableConnectionManager - Amoeba Monitor Server listening on /127.0.0.1:18187.
+2015-07-09 17:18:05,332 INFO  server.MysqlClientAuthenticator - Accepting conn=com.meidusa.amoeba.mysql.net.MysqlClientConnection@192.168.1.9:62988,hashcode=533872696
+2015-07-09 17:22:04,267 INFO  server.MysqlClientAuthenticator - Accepting conn=com.meidusa.amoeba.mysql.net.MysqlClientConnection@192.168.1.9:63002,hashcode=1059412993
+2015-07-09 17:22:24,267 INFO  server.MysqlClientAuthenticator - Accepting conn=com.meidusa.amoeba.mysql.net.MysqlClientConnection@192.168.1.9:63006,hashcode=1897332240
+2015-07-09 17:23:15,751 INFO  server.MysqlClientAuthenticator - Accepting conn=com.meidusa.amoeba.mysql.net.MysqlClientConnection@192.168.1.9:63010,hashcode=486055890
+2015-07-09 17:26:13,531 INFO  server.MysqlClientAuthenticator - Accepting conn=com.meidusa.amoeba.mysql.net.MysqlClientConnection@192.168.1.9:63018,hashcode=386314632
+2015-07-09 17:27:07,170 INFO  server.MysqlClientAuthenticator - Accepting conn=com.meidusa.amoeba.mysql.net.MysqlClientConnection@192.168.1.9:63032,hashcode=263938700
+2015-07-09 17:27:49,859 INFO  context.MysqlRuntimeContext - Amoeba for Mysql current versoin=5.1.45-mysql-amoeba-proxy-2.2.0
+2015-07-09 17:27:50,190 INFO  net.ServerableConnectionManager - Amoeba for Mysql listening on 0.0.0.0/0.0.0.0:8066.
+2015-07-09 17:27:50,193 INFO  net.ServerableConnectionManager - Amoeba Monitor Server listening on /127.0.0.1:46499.
+2015-07-09 17:27:54,499 INFO  server.MysqlClientAuthenticator - Accepting conn=com.meidusa.amoeba.mysql.net.MysqlClientConnection@192.168.1.9:63069,hashcode=610641028
+2015-07-09 17:29:22,803 INFO  server.MysqlClientAuthenticator - Accepting conn=com.meidusa.amoeba.mysql.net.MysqlClientConnection@192.168.1.9:63072,hashcode=1978150427
+2015-07-09 17:33:10,776 INFO  server.MysqlClientAuthenticator - Accepting conn=com.meidusa.amoeba.mysql.net.MysqlClientConnection@192.168.1.9:63085,hashcode=1073721122
+2015-07-09 17:33:30,832 INFO  server.MysqlClientAuthenticator - Accepting conn=com.meidusa.amoeba.mysql.net.MysqlClientConnection@192.168.1.9:63089,hashcode=1950679218
+2015-07-09 17:43:17,815 INFO  context.MysqlRuntimeContext - Amoeba for Mysql current versoin=5.1.45-mysql-amoeba-proxy-2.2.0
+2015-07-09 17:44:11,358 INFO  context.MysqlRuntimeContext - Amoeba for Mysql current versoin=5.1.45-mysql-amoeba-proxy-2.2.0
+2015-07-09 17:46:07,000 INFO  context.MysqlRuntimeContext - Amoeba for Mysql current versoin=5.1.45-mysql-amoeba-proxy-2.2.0
+2015-07-09 17:47:39,964 INFO  context.MysqlRuntimeContext - Amoeba for Mysql current versoin=5.1.45-mysql-amoeba-proxy-2.2.0
+2015-07-09 17:49:32,819 INFO  context.MysqlRuntimeContext - Amoeba for Mysql current versoin=5.1.45-mysql-amoeba-proxy-2.2.0
+2015-07-09 17:49:33,287 INFO  net.ServerableConnectionManager - Amoeba for Mysql listening on 0.0.0.0/0.0.0.0:8066.
+2015-07-09 17:49:33,344 INFO  net.ServerableConnectionManager - Amoeba Monitor Server listening on /127.0.0.1:59232.
+2015-07-09 17:49:40,250 INFO  server.MysqlClientAuthenticator - Accepting conn=com.meidusa.amoeba.mysql.net.MysqlClientConnection@192.168.1.9:63326,hashcode=1176733631
+2015-07-09 17:51:30,752 INFO  server.MysqlClientAuthenticator - Accepting conn=com.meidusa.amoeba.mysql.net.MysqlClientConnection@192.168.1.9:63344,hashcode=1479567324
+2015-07-09 17:53:33,162 INFO  context.MysqlRuntimeContext - Amoeba for Mysql current versoin=5.1.45-mysql-amoeba-proxy-2.2.0
+2015-07-09 17:53:33,478 INFO  net.ServerableConnectionManager - Amoeba for Mysql listening on 0.0.0.0/0.0.0.0:8066.
+2015-07-09 17:53:33,482 INFO  net.ServerableConnectionManager - Amoeba Monitor Server listening on /127.0.0.1:20004.
+2015-07-09 17:53:39,418 INFO  server.MysqlClientAuthenticator - Accepting conn=com.meidusa.amoeba.mysql.net.MysqlClientConnection@192.168.1.9:63388,hashcode=1083128804
+2015-07-09 17:55:54,451 INFO  server.MysqlClientAuthenticator - Accepting conn=com.meidusa.amoeba.mysql.net.MysqlClientConnection@192.168.1.9:63416,hashcode=295865649
+2015-07-09 17:58:14,189 INFO  server.MysqlClientAuthenticator - Accepting conn=com.meidusa.amoeba.mysql.net.MysqlClientConnection@192.168.1.9:63439,hashcode=230733173
+2015-07-09 18:01:59,149 INFO  context.MysqlRuntimeContext - Amoeba for Mysql current versoin=5.1.45-mysql-amoeba-proxy-2.2.0
+2015-07-09 18:01:59,484 INFO  net.ServerableConnectionManager - Amoeba for Mysql listening on 0.0.0.0/0.0.0.0:8066.
+2015-07-09 18:01:59,488 INFO  net.ServerableConnectionManager - Amoeba Monitor Server listening on /127.0.0.1:45950.
+2015-07-09 18:02:03,910 INFO  server.MysqlClientAuthenticator - Accepting conn=com.meidusa.amoeba.mysql.net.MysqlClientConnection@192.168.1.9:63514,hashcode=836415545
+2015-07-09 18:02:48,823 INFO  context.MysqlRuntimeContext - Amoeba for Mysql current versoin=5.1.45-mysql-amoeba-proxy-2.2.0
+2015-07-09 18:02:49,054 INFO  net.ServerableConnectionManager - Amoeba for Mysql listening on 0.0.0.0/0.0.0.0:8066.
+2015-07-09 18:02:49,060 INFO  net.ServerableConnectionManager - Amoeba Monitor Server listening on /127.0.0.1:17683.
+2015-07-09 18:03:51,134 INFO  context.MysqlRuntimeContext - Amoeba for Mysql current versoin=5.1.45-mysql-amoeba-proxy-2.2.0
+2015-07-09 18:03:51,473 INFO  net.ServerableConnectionManager - Amoeba for Mysql listening on 0.0.0.0/0.0.0.0:8066.
+2015-07-09 18:03:51,477 INFO  net.ServerableConnectionManager - Amoeba Monitor Server listening on /127.0.0.1:22979.
+2015-07-09 18:03:58,884 INFO  server.MysqlClientAuthenticator - Accepting conn=com.meidusa.amoeba.mysql.net.MysqlClientConnection@192.168.1.9:63602,hashcode=666482824
+2015-07-09 18:06:53,014 INFO  context.MysqlRuntimeContext - Amoeba for Mysql current versoin=5.1.45-mysql-amoeba-proxy-2.2.0
+2015-07-09 18:06:53,328 INFO  net.ServerableConnectionManager - Amoeba for Mysql listening on 0.0.0.0/0.0.0.0:8066.
+2015-07-09 18:06:53,337 INFO  net.ServerableConnectionManager - Amoeba Monitor Server listening on /127.0.0.1:57718.
+2015-07-09 18:06:57,220 INFO  server.MysqlClientAuthenticator - Accepting conn=com.meidusa.amoeba.mysql.net.MysqlClientConnection@192.168.1.9:63673,hashcode=302120216
+2015-07-09 18:13:18,920 INFO  context.MysqlRuntimeContext - Amoeba for Mysql current versoin=5.1.45-mysql-amoeba-proxy-2.2.0
+2015-07-09 18:13:19,230 INFO  net.ServerableConnectionManager - Amoeba for Mysql listening on 0.0.0.0/0.0.0.0:8066.
+2015-07-09 18:13:19,235 INFO  net.ServerableConnectionManager - Amoeba Monitor Server listening on /127.0.0.1:19366.
+2015-07-09 18:13:23,758 INFO  server.MysqlClientAuthenticator - Accepting conn=com.meidusa.amoeba.mysql.net.MysqlClientConnection@192.168.1.9:63755,hashcode=1813953336
+2015-07-09 18:14:25,670 INFO  context.MysqlRuntimeContext - Amoeba for Mysql current versoin=5.1.45-mysql-amoeba-proxy-2.2.0
+2015-07-09 18:14:25,982 INFO  net.ServerableConnectionManager - Amoeba for Mysql listening on 0.0.0.0/0.0.0.0:8066.
+2015-07-09 18:14:25,987 INFO  net.ServerableConnectionManager - Amoeba Monitor Server listening on /127.0.0.1:44147.
+2015-07-09 18:14:31,308 INFO  server.MysqlClientAuthenticator - Accepting conn=com.meidusa.amoeba.mysql.net.MysqlClientConnection@192.168.1.9:63790,hashcode=1838208709
+2015-07-09 18:15:33,989 INFO  server.MysqlClientAuthenticator - Accepting conn=com.meidusa.amoeba.mysql.net.MysqlClientConnection@192.168.1.9:63800,hashcode=348875670
+2015-07-09 18:16:38,348 INFO  server.MysqlClientAuthenticator - Accepting conn=com.meidusa.amoeba.mysql.net.MysqlClientConnection@192.168.1.9:63828,hashcode=614111561
+2015-07-09 18:17:41,540 INFO  server.MysqlClientAuthenticator - Accepting conn=com.meidusa.amoeba.mysql.net.MysqlClientConnection@192.168.1.9:63845,hashcode=1066456457

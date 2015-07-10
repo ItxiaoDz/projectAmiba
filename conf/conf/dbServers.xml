@@ -20,14 +20,14 @@
 			<property name="port">3306</property>
 			
 			<!-- mysql schema -->
-			<property name="schema">test</property>
+			<property name="schema">trade</property>
 			
 			<!-- mysql user -->
 			<property name="user">root</property>
 			
-			<!--  mysql password
-			<property name="password">password</property>
-			-->
+			<!--  mysql password-->
+			<property name="password">123456</property>
+			
 		</factoryConfig>
 
 		<poolConfig class="com.meidusa.amoeba.net.poolable.PoolableObjectPool">
@@ -45,7 +45,7 @@
 	<dbServer name="server1"  parent="abstractServer">
 		<factoryConfig>
 			<!-- mysql ip -->
-			<property name="ipAddress">127.0.0.1</property>
+			<property name="ipAddress">192.168.1.200</property>
 		</factoryConfig>
 	</dbServer>
 	
@@ -53,7 +53,45 @@
 		<factoryConfig>
 			<!-- mysql ip -->
 			<property name="ipAddress">127.0.0.1</property>
+			<!-- mysql user -->
+			<!-- <property name="user">root</property> -->
+			
+			<!--  mysql password-->
+			<!-- <property name="password">123456</property> -->
 		</factoryConfig>
+	</dbServer>
+	
+	<dbServer name="jdbcserver" abstractive="true">
+		<factoryConfig class="com.meidusa.amoeba.jdbc.JdbcConnectionFactory">
+			<property name="driver">  
+                    <bean class="com.meidusa.amoeba.jdbc.DriverWrapper">  
+                        <property name="driver">  
+                            <bean class="com.mysql.jdbc.Driver"/>  
+                        </property>  
+                    </bean>  
+                </property>  
+                  
+                   
+                <!-- jdbc url. -->  
+                <property name="url">jdbc:mysql://192.168.1.9:3306/trade</property>  
+                  
+                <!-- url -->  
+                <property name="properties">  
+                    <bean class="java.util.Properties">  
+                        <property name="user">root</property>  
+                        <property name="password"></property>  
+                    </bean>  
+                </property>
+		</factoryConfig>
+		<poolConfig class="com.meidusa.amoeba.net.poolable.PoolableObjectPool">  
+                <property name="maxActive">200</property>  
+                <property name="maxIdle">200</property>  
+                <property name="minIdle">10</property>  
+                <property name="minEvictableIdleTimeMillis">600000</property>  
+                <property name="timeBetweenEvictionRunsMillis">600000</property>  
+                <property name="testOnBorrow">true</property>  
+                <property name="testWhileIdle">true</property>  
+        </poolConfig>  
 	</dbServer>
 	
 	<dbServer name="multiPool" virtual="true">
@@ -62,7 +100,7 @@
 			<property name="loadbalance">1</property>
 			
 			<!-- Separated by commas,such as: server1,server2,server1 -->
-			<property name="poolNames">server1,server2</property>
+			<property name="poolNames">server1,server2</property> <!-- ,server2 -->
 		</poolConfig>
 	</dbServer>
 		

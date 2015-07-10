@@ -20,5 +20,6 @@
 	<classpathentry kind="lib" path="D:/CZX/amoeba/build/etc/lib/ognl-2.7.3.jar"/>
 	<classpathentry kind="lib" path="D:/CZX/amoeba/build/etc/lib/ognl-2.7.3-sources.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="src/lib/mysql-connector-java-5.1.26-bin.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

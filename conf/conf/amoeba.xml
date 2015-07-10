@@ -29,7 +29,7 @@
 					
 					<property name="user">root</property>
 					
-					<property name="password"></property>
+					<property name="password">123456</property>
 					
 					<property name="filter">
 						<bean class="com.meidusa.amoeba.server.IPAccessController">
