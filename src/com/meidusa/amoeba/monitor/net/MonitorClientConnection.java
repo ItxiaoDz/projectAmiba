@@ -4,6 +4,7 @@ import java.nio.channels.SocketChannel;
 
 import org.apache.log4j.Logger;
 
+import com.meidusa.amoeba.context.ProxyRuntimeContext;
 import com.meidusa.amoeba.monitor.MonitorConstant;
 import com.meidusa.amoeba.monitor.io.MonitorPacketInputStream;
 import com.meidusa.amoeba.monitor.packet.MonitorCommandPacket;
@@ -44,6 +45,14 @@ public class MonitorClientConnection extends Connection {
 			} catch (InterruptedException e) {
 			}
 			System.exit(0);
+			break;
+		}
+		//‘ˆº”reload√¸¡Ó
+		case MonitorConstant.FUN_TYPE_AMOEBA_RELOAD:{
+			logger.warn("reloading amoeba ....");
+			ProxyRuntimeContext.getInstance().loadDbserverUsage();
+			packet.funType = MonitorConstant.FUN_TYPE_OK;
+			this.postMessage(packet.toByteBuffer(this));
 			break;
 		}
 			default:{

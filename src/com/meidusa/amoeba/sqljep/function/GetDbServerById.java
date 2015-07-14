@@ -28,6 +28,8 @@ public class GetDbServerById extends PostfixCommand {
 	private static Logger logger           = Logger.getLogger(GetDbServerById.class);
 	private String        poolName;
 	private String        sql;
+	private String 		  dbInfoSql;
+	private String 		  insertUserDb;
 	
 	public void setPoolName(String poolName) {
 		this.poolName = poolName;
@@ -36,6 +38,12 @@ public class GetDbServerById extends PostfixCommand {
         this.sql = sql;
     }
 	
+	public void setDbInfoSql(String dbInfoSql) {
+		this.dbInfoSql = dbInfoSql;
+	}
+	public void setInsertUserDb(String insertUserDb) {
+		this.insertUserDb = insertUserDb;
+	}
 	final public int getNumberOfParameters() {
 		return 1;
 	}
@@ -46,7 +54,7 @@ public class GetDbServerById extends PostfixCommand {
 		return new Comparable<?>[]{param};
 	}
 	
-	private Map<String, Object> query(Comparable<?>[] parameters) {
+	private Map<String, Object> query(Comparable<?>[] parameters,String querySql) {
         ObjectPool pool = ProxyRuntimeContext.getInstance().getPoolMap().get(poolName);
         Connection conn = null;
         PreparedStatement st = null;
@@ -55,7 +63,7 @@ public class GetDbServerById extends PostfixCommand {
         try {
             Map<String, Object> columnMap = null;
             conn = (Connection) pool.borrowObject();
-            st = conn.prepareStatement(sql);
+            st = conn.prepareStatement(querySql);
             if (parameters != null) {
                 for (int i = 0; i < parameters.length; i++) {
                     if (parameters[i] instanceof Comparative) {
@@ -85,11 +93,11 @@ public class GetDbServerById extends PostfixCommand {
                     }
                 }
             } else {
-                logger.error("no result!sql:[" + sql + "], args:" + Arrays.toString(parameters));
+                logger.error("no result!sql:[" + querySql + "], args:" + Arrays.toString(parameters));
             }
             return columnMap;
         } catch (Exception e) {
-            logger.error("execute sql error :" + sql, e);
+            logger.error("execute sql error :" + querySql, e);
             return null;
         } finally {
             if (rs != null) {
@@ -115,14 +123,66 @@ public class GetDbServerById extends PostfixCommand {
         }
     }
 	
+	private int insert(Comparable<?>[] parameters,String querySql) {
+        ObjectPool pool = ProxyRuntimeContext.getInstance().getPoolMap().get(poolName);
+        Connection conn = null;
+        PreparedStatement st = null;
+//        ResultSet rs = null;
+
+        try {
+            Map<String, Object> columnMap = null;
+            conn = (Connection) pool.borrowObject();
+            st = conn.prepareStatement(querySql);
+            if (parameters != null) {
+                for (int i = 0; i < parameters.length; i++) {
+                    if (parameters[i] instanceof Comparative) {
+                        st.setObject(i + 1, ((Comparative) parameters[i]).getValue());
+                    } else {
+                        st.setObject(i + 1, parameters[i]);
+                    }
+                }
+            }
+
+            int rs = st.executeUpdate();
+            
+            return rs;
+        } catch (Exception e) {
+            logger.error("execute sql error :" + querySql, e);
+            return -1;
+        } finally {
+
+            if (st != null) {
+                try {
+                    st.close();
+                } catch (SQLException e1) {
+                }
+            }
+
+            if (conn != null) {
+                try {
+                    pool.returnObject(conn);
+                } catch (Exception e) {
+                }
+            }
+        }
+    }
+	
 	public Comparable<?> getDbserverById(Comparable<?>  param) throws ParseException {
 		if (param == null) {
 			return null;
 		}
 		Comparable<?>[] params = new Comparable<?>[]{param};
-		System.out.println("开始查询对照关系："+new Date().getTime());
-		Map<String,Object> serverResult = query(params);
-		System.out.println("结束查询对照关系："+new Date().getTime());
+		System.out.println("��ʼ��ѯ���չ�ϵ"+new Date().getTime());
+		Map<String,Object> serverResult = query(params,sql);
+		System.out.println("������ѯ���չ�ϵ"+new Date().getTime());
+		if(serverResult==null){
+			String minUsageSever = DbServerUtil.getMinUsageDbserver();
+			params = new Comparable<?>[]{param,minUsageSever};
+			insert(params,insertUserDb);
+			DbServerUtil.increaseUsage(minUsageSever);
+			params = new Comparable<?>[]{minUsageSever};
+			serverResult = query(params,dbInfoSql);
+		}
 		
 		String dbserver = (String) serverResult.get("dbserver");
 		String ipAddr = (String) serverResult.get("ipaddr");
@@ -141,8 +201,7 @@ public class GetDbServerById extends PostfixCommand {
 
 		String url = "jdbc:mysql://127.0.0.1:3306/trade";
 
-		// MySQL配置时的用户名
-
+		// MySQL配置时的用户�
 		String user = "root";
 
 		// Java连接MySQL配置时的密码
@@ -155,8 +214,7 @@ public class GetDbServerById extends PostfixCommand {
 
 		Class.forName(driver);
 
-		// 连续数据库
-
+		// 连续数据�
 		//DriverManager.setLoginTimeout(100);
 		Connection conn = DriverManager.getConnection(url, user, password);
 		if(!conn.isClosed())
@@ -202,7 +260,7 @@ public class GetDbServerById extends PostfixCommand {
 
 	public Comparable<?> getResult(Comparable<?>... comparables)
 			throws ParseException {
-		System.out.println("使用GetDbServerById");
+		System.out.println("ʹ��GetDbServerById");
 		return getDbserverById(comparables[0]);
 	}
 	

@@ -123,6 +123,12 @@ public class AmoebaProxyServer {
 					System.out.println("amoeba server is running with port="+client.getPort());
 					System.exit(-1);
 				}
+			}else if("reload".equalsIgnoreCase(args[0])){
+				packet.funType = MonitorCommandPacket.FUN_TYPE_AMOEBA_RELOAD;
+				if(client.run(packet)){
+					System.out.println("amoeba server complet reload !");
+					System.exit(-1);
+				}
 			}else{
 				packet.funType = MonitorCommandPacket.FUN_TYPE_AMOEBA_SHUTDOWN;
 				if(client.run(packet)){
@@ -180,6 +186,10 @@ public class AmoebaProxyServer {
 			PriorityShutdownHook.addShutdowner(service);
 			registerReporter(service);
 		}
+		
+		//初始化数据库使用率
+		ProxyRuntimeContext.getInstance().loadDbserverUsage();
+		
 		new Thread(){
 			{
 				this.setDaemon(true);

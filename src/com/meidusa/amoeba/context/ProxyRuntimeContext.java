@@ -17,11 +17,21 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -31,6 +41,7 @@ import org.apache.commons.pool.PoolableObjectFactory;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.helpers.LogLog;
+import org.omg.CORBA.PUBLIC_MEMBER;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -55,17 +66,19 @@ import com.meidusa.amoeba.net.poolable.MultipleLoadBalanceObjectPool;
 import com.meidusa.amoeba.net.poolable.ObjectPool;
 import com.meidusa.amoeba.net.poolable.PoolableObject;
 import com.meidusa.amoeba.route.QueryRouter;
+import com.meidusa.amoeba.sqljep.function.Comparative;
 import com.meidusa.amoeba.util.Initialisable;
 import com.meidusa.amoeba.util.InitialisationException;
 import com.meidusa.amoeba.util.Reporter;
 import com.meidusa.amoeba.util.StringUtil;
+import com.meidusa.amoeba.util.ValueComparator;
 
 /**
  * @author <a href=mailto:piratebase@sina.com>Struct chen</a>
  */
 public class ProxyRuntimeContext implements Reporter {
 
-    public static final String             DEFAULT_SERVER_CONNECTION_MANAGER_CLASS = "com.meidusa.amoeba.net.AuthingableConnectionManager";
+	public static final String             DEFAULT_SERVER_CONNECTION_MANAGER_CLASS = "com.meidusa.amoeba.net.AuthingableConnectionManager";
     public static final String             DEFAULT_REAL_POOL_CLASS                 = "com.meidusa.amoeba.net.poolable.PoolableObjectPool";
     public static final String             DEFAULT_VIRTUAL_POOL_CLASS              = "com.meidusa.amoeba.server.MultipleServerPool";
 
@@ -88,6 +101,8 @@ public class ProxyRuntimeContext implements Reporter {
     private RuntimeContext runtimeContext;
     
     private Map<String, Object> beanContext = new HashMap<String, Object>();
+    
+    private Map<String, Double> dbServerUsage ;
     
 	public RuntimeContext getRuntimeContext() {
 		return runtimeContext;
@@ -131,6 +146,10 @@ public class ProxyRuntimeContext implements Reporter {
     public Map<String, ObjectPool> getPoolMap() {
         return readOnlyPoolMap;
     }
+
+    public Map<String, Double> getDbServerUsage() {
+		return dbServerUsage;
+	}
 
     private List<Initialisable> initialisableList = new ArrayList<Initialisable>();
 
@@ -565,12 +584,12 @@ public class ProxyRuntimeContext implements Reporter {
 		try {
             BeanObjectEntityConfig poolConfig = config.getPoolConfig();
             //pool = (ObjectPool) createBeanObjectEntity(poolConfig,true);
-            //鏀逛负鍜宨nit閭ｉ噷閭ｆ牱浣跨敤poolConfig.createBeanObject modified by CZX 2015-7-10
+            //改用和init中使用的方法poolConfig.createBeanObject modified by CZX 2015-7-10
             pool = (ObjectPool) poolConfig.createBeanObject(true,conMgrMap);
             pool.setName(StringUtil.isEmpty(poolConfig.getName())?config.getName():poolConfig.getName());
             
             if (config.getFactoryConfig() != null) {
-            	//鏀逛负鍜宨nit閭ｉ噷閭ｆ牱浣跨敤poolConfig.createBeanObject modified by CZX 2015-7-10
+            	//改用和init中使用的方法poolConfig.createBeanObject modified by CZX 2015-7-10
                 //PoolableObjectFactory factory = (PoolableObjectFactory) createBeanObjectEntity(config.getFactoryConfig(),true);
             	PoolableObjectFactory factory = (PoolableObjectFactory) config.getFactoryConfig().createBeanObject(true,conMgrMap);
             	pool.setFactory(factory);
@@ -810,4 +829,110 @@ public class ProxyRuntimeContext implements Reporter {
 	
 
 	}
+	
+	
+	/*class ValueComparator implements Comparator<String> {  
+		  
+	    Map<String, Double> base;  
+	    public ValueComparator(Map<String, Double> base) {  
+	        this.base = base;  
+	    }  
+	  
+	    // Note: this comparator imposes orderings that are inconsistent with equals.      
+	    public int compare(String a, String b) {  
+	        if (base.get(a) <= base.get(b)) {  
+	            return -1;  
+	        } else {  
+	            return 1;  
+	        } // returning 0 would merge keys  
+	    }  
+	}  */
+	
+	public void loadDbserverUsage(){
+		String sql = "select dbserver,COUNT(DISTINCT userId) 'usage' from user_dbserver group by dbserver";
+		List<Map<String, Object>> usageList = query("jdbcserver",sql,null);
+		HashMap<String,Double> map = new HashMap<String,Double>();  
+        ValueComparator bvc =  new ValueComparator(map);  
+        
+		if(usageList!=null){
+			for(Map<String, Object> usage:usageList){
+				map.put((String) usage.get("dbserver"), Double.valueOf(usage.get("usage").toString()));
+			}
+		}
+		
+		dbServerUsage = new TreeMap<String,Double>(bvc);  
+		this.dbServerUsage.putAll(map);
+		
+	}
+	
+	
+	private List<Map<String, Object>> query(String poolName,String sql, Comparable<?>[] parameters) {
+        ObjectPool pool = this.poolMap.get(poolName);
+        Connection conn = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+
+        try {
+            
+            conn = (Connection) pool.borrowObject();
+            st = conn.prepareStatement(sql);
+            if (parameters != null) {
+                for (int i = 0; i < parameters.length; i++) {
+                    if (parameters[i] instanceof Comparative) {
+                        st.setObject(i + 1, ((Comparative) parameters[i]).getValue());
+                    } else {
+                        st.setObject(i + 1, parameters[i]);
+                    }
+                }
+            }
+
+            rs = st.executeQuery();
+            List<Map<String, Object>> result = new ArrayList<Map<String,Object>>();
+            while (rs.next()) {
+            	Map<String, Object> columnMap  = new HashMap<String, Object>();
+                ResultSetMetaData metaData = rs.getMetaData();
+                for (int i = 1; i <= metaData.getColumnCount(); i++) {
+                    String columnName = null;
+                    String label = metaData.getColumnLabel(i);
+                    if (label != null) {
+                        columnName = label.toLowerCase();
+                    } else {
+                        columnName = metaData.getColumnName(i).toLowerCase();
+                    }
+                    Object columnValue = rs.getObject(i);
+                    columnMap.put(columnName, columnValue);
+                    if (logger.isDebugEnabled()) {
+                        logger.debug("[columnName]:" + columnName + " [columnValue]:" + columnValue + " [args]:" + Arrays.toString(parameters));
+                    }
+                }
+                
+                result.add(columnMap);
+            } 
+            return result;
+        } catch (Exception e) {
+            logger.error("execute sql error :" + sql, e);
+            return null;
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e1) {
+                }
+            }
+
+            if (st != null) {
+                try {
+                    st.close();
+                } catch (SQLException e1) {
+                }
+            }
+
+            if (conn != null) {
+                try {
+                    pool.returnObject(conn);
+                } catch (Exception e) {
+                }
+            }
+        }
+    }
 }

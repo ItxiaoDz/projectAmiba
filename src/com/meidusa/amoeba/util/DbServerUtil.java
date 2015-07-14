@@ -3,6 +3,10 @@
  */
 package com.meidusa.amoeba.util;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
 import org.apache.log4j.Logger;
 
 import com.meidusa.amoeba.config.BeanObjectEntityConfig;
@@ -50,5 +54,30 @@ public class DbServerUtil {
 			return false;
 		}
 		
+	}
+	
+	public static String getMinUsageDbserver(){
+		Map<String,Double> dbServerUsage = ProxyRuntimeContext.getInstance().getDbServerUsage();
+		if(ProxyRuntimeContext.getInstance().getDbServerUsage()!=null){
+			Iterator<String> itr = dbServerUsage.keySet().iterator();
+			if(itr.hasNext()){
+				return itr.next();
+			}
+		}
+		
+		return null;
+	}
+	
+	public static void increaseUsage(String serverName){
+		Map<String,Double> dbServerUsage = ProxyRuntimeContext.getInstance().getDbServerUsage();
+		synchronized (dbServerUsage) {
+			Map<String,Double> temp = new HashMap<String, Double>();
+			temp.putAll(dbServerUsage);
+			double usage = temp.get(serverName)+1;
+			temp.put(serverName, usage);
+			ValueComparator bvc =  new ValueComparator(temp);  
+			dbServerUsage.clear();
+			dbServerUsage.putAll(temp);
+		}
 	}
 }
