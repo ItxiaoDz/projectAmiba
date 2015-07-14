@@ -1,13 +1,12 @@
 package com.meidusa.amoeba.sqljep.function;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -121,7 +120,9 @@ public class GetDbServerById extends PostfixCommand {
 			return null;
 		}
 		Comparable<?>[] params = new Comparable<?>[]{param};
+		System.out.println("开始查询对照关系："+new Date().getTime());
 		Map<String,Object> serverResult = query(params);
+		System.out.println("结束查询对照关系："+new Date().getTime());
 		
 		String dbserver = (String) serverResult.get("dbserver");
 		String ipAddr = (String) serverResult.get("ipaddr");
@@ -185,7 +186,7 @@ public class GetDbServerById extends PostfixCommand {
 			} catch(Exception e) {   
 			e.printStackTrace();   
 			}*/
-		
+		System.out.println("dbserver="+dbserver);
 		if(DbServerUtil.isExists(dbserver)){
 			return dbserver;
 		}else{
@@ -201,6 +202,7 @@ public class GetDbServerById extends PostfixCommand {
 
 	public Comparable<?> getResult(Comparable<?>... comparables)
 			throws ParseException {
+		System.out.println("使用GetDbServerById");
 		return getDbserverById(comparables[0]);
 	}
 	

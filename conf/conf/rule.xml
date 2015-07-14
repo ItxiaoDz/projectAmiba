@@ -39,6 +39,16 @@
                          
                    ]]></expression>
            </rule> -->
+           <!-- <rule name="rule1">
+			<parameters>userId</parameters>
+			<expression><![CDATA[ abs(hash(userId)) % 2 == 0  ]]></expression>
+			<defaultPools>server2</defaultPools>
+			</rule>
+			<rule name="rule2">
+			<parameters>userId</parameters>
+			<expression><![CDATA[ abs(hash(userId)) % 2 == 1  ]]></expression>
+			<defaultPools>server2</defaultPools>
+			</rule> -->
            <rule name="rule1" ruleResult="POOLNAME">
                    <parameters>userId</parameters>
                    <expression><![CDATA[

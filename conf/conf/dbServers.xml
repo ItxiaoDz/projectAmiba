@@ -51,12 +51,8 @@
 	
 	<!-- <dbServer name="server2"  parent="abstractServer">
 		<factoryConfig>
-			mysql ip
 			<property name="ipAddress">127.0.0.1</property>
-			mysql user
 			<property name="user">root</property>
-			
-			 mysql password
 			<property name="password">123456</property>
 		</factoryConfig>
 	</dbServer> -->
