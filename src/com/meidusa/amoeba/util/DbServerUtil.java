@@ -56,12 +56,23 @@ public class DbServerUtil {
 		
 	}
 	
-	public static String getMinUsageDbserver(){
+	/**选择一个合适的数据库服务器
+	 * @return 数据库服务器名称
+	 * @author CZX
+	 * @date 2015-7-15
+	 */
+	public static String selectDbserver(){
 		Map<String,Double> dbServerUsage = ProxyRuntimeContext.getInstance().getDbServerUsage();
 		if(ProxyRuntimeContext.getInstance().getDbServerUsage()!=null){
 			Iterator<String> itr = dbServerUsage.keySet().iterator();
-			if(itr.hasNext()){
-				return itr.next();
+			Iterator<Double> valueItr = dbServerUsage.values().iterator();
+			while(itr.hasNext() && valueItr.hasNext()){
+				String server = itr.next();
+				Double validUsage = valueItr.next();
+				if(validUsage.compareTo(0.0)>0){
+					return server;
+				}
+				
 			}
 		}
 		
@@ -73,9 +84,9 @@ public class DbServerUtil {
 		synchronized (dbServerUsage) {
 			Map<String,Double> temp = new HashMap<String, Double>();
 			temp.putAll(dbServerUsage);
-			double usage = temp.get(serverName)+1;
+			double usage = temp.get(serverName)-1;
 			temp.put(serverName, usage);
-			ValueComparator bvc =  new ValueComparator(temp);  
+			//ValueComparator bvc =  new ValueComparator(temp);  
 			dbServerUsage.clear();
 			dbServerUsage.putAll(temp);
 		}

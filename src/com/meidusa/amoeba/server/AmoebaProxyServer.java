@@ -139,7 +139,7 @@ public class AmoebaProxyServer {
 				System.exit(0);
 			}
 		}else{
-			System.out.println("amoeba start|stop");
+			System.out.println("amoeba start|stop|reload");
 			System.exit(0);
 		}
 		String log4jConf = System.getProperty("log4j.conf","${amoeba.home}/conf/log4j.xml");

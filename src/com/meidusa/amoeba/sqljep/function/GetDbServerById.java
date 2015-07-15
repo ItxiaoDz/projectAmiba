@@ -28,7 +28,7 @@ public class GetDbServerById extends PostfixCommand {
 	private static Logger logger           = Logger.getLogger(GetDbServerById.class);
 	private String        poolName;
 	private String        sql;
-	private String 		  dbInfoSql;
+	private String 		  dbInfoTab;
 	private String 		  insertUserDb;
 	
 	public void setPoolName(String poolName) {
@@ -38,8 +38,8 @@ public class GetDbServerById extends PostfixCommand {
         this.sql = sql;
     }
 	
-	public void setDbInfoSql(String dbInfoSql) {
-		this.dbInfoSql = dbInfoSql;
+	public void setDbInfoTab(String dbInfoTab) {
+		this.dbInfoTab = dbInfoTab;
 	}
 	public void setInsertUserDb(String insertUserDb) {
 		this.insertUserDb = insertUserDb;
@@ -176,12 +176,25 @@ public class GetDbServerById extends PostfixCommand {
 		Map<String,Object> serverResult = query(params,sql);
 		System.out.println("结束查询对照关系"+new Date().getTime());
 		if(serverResult==null){
-			String minUsageSever = DbServerUtil.getMinUsageDbserver();
+			String minUsageSever = DbServerUtil.selectDbserver();
 			params = new Comparable<?>[]{param,minUsageSever};
+			long starTime = new Date().getTime();
 			insert(params,insertUserDb);
+			long endTime = new Date().getTime();
+			System.out.println("插入对照关系耗时"+(endTime-starTime));
+			params = new Comparable<?>[]{minUsageSever};
+			String updateUserCount = "update "+dbInfoTab+" set userCount=userCount+1 where dbserver=?";
+			starTime = new Date().getTime();
+			insert(params,updateUserCount);
+			endTime = new Date().getTime();
+			System.out.println("修改服务器使用情况耗时"+(endTime-starTime));
 			DbServerUtil.increaseUsage(minUsageSever);
 			params = new Comparable<?>[]{minUsageSever};
+			String dbInfoSql = "select * from "+dbInfoTab+" where dbserver = ?";
+			starTime = new Date().getTime();
 			serverResult = query(params,dbInfoSql);
+			endTime = new Date().getTime();
+			System.out.println("获取服务器信息耗时"+(endTime-starTime));
 		}
 		
 		String dbserver = (String) serverResult.get("dbserver");

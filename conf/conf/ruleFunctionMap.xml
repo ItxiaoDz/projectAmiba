@@ -12,8 +12,8 @@
 	<function name="hash" class="com.meidusa.amoeba.sqljep.function.Hash"/>
 	<function name="getDbServerById" class="com.meidusa.amoeba.sqljep.function.GetDbServerById">
 		<property name="sql">select * from user_dbserver ud,dbserver_info db where db.dbserver = ud.dbserver and userId=?</property>
-		<property name="dbInfoSql">select * from dbserver_info db where dbserver=?</property>
 		<property name="insertUserDb">insert into user_dbserver(userId,dbserver) values(?,?)</property>
+		<property name="dbInfoTab">dbserver_info</property>
 		<property name="poolName">jdbcserver</property>
 	</function>
 	

@@ -849,7 +849,7 @@ public class ProxyRuntimeContext implements Reporter {
 	}  */
 	
 	public void loadDbserverUsage(){
-		String sql = "select dbserver,COUNT(DISTINCT userId) 'usage' from user_dbserver group by dbserver";
+		String sql = "select dbserver,(maxCount - userCount) 'usage' from dbserver_info group by dbserver";
 		List<Map<String, Object>> usageList = query("jdbcserver",sql,null);
 		HashMap<String,Double> map = new HashMap<String,Double>();  
         ValueComparator bvc =  new ValueComparator(map);  
