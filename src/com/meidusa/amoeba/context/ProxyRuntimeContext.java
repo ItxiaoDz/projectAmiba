@@ -52,6 +52,8 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
+import redis.clients.jedis.Jedis;
+
 import com.meidusa.amoeba.config.BeanObjectEntityConfig;
 import com.meidusa.amoeba.config.ConfigurationException;
 import com.meidusa.amoeba.config.DBServerConfig;
@@ -72,6 +74,7 @@ import com.meidusa.amoeba.util.InitialisationException;
 import com.meidusa.amoeba.util.Reporter;
 import com.meidusa.amoeba.util.StringUtil;
 import com.meidusa.amoeba.util.ValueComparator;
+import com.meidusa.amoeba.util.redis.RedisUtils;
 
 /**
  * @author <a href=mailto:piratebase@sina.com>Struct chen</a>
@@ -862,6 +865,14 @@ public class ProxyRuntimeContext implements Reporter {
 		
 		dbServerUsage = new TreeMap<String,Double>(bvc);  
 		this.dbServerUsage.putAll(map);
+		
+		try {
+			Jedis jedis = RedisUtils.getResource();
+			RedisUtils.returnResource(jedis);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 	
