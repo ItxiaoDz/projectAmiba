@@ -24,13 +24,11 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 
@@ -41,7 +39,6 @@ import org.apache.commons.pool.PoolableObjectFactory;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.helpers.LogLog;
-import org.omg.CORBA.PUBLIC_MEMBER;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -60,6 +57,8 @@ import com.meidusa.amoeba.config.DBServerConfig;
 import com.meidusa.amoeba.config.DocumentUtil;
 import com.meidusa.amoeba.config.ParameterMapping;
 import com.meidusa.amoeba.config.ProxyServerConfig;
+import com.meidusa.amoeba.data.DbServerInfo;
+import com.meidusa.amoeba.data.UserDbserver;
 import com.meidusa.amoeba.heartbeat.HeartbeatDelayed;
 import com.meidusa.amoeba.heartbeat.HeartbeatManager;
 import com.meidusa.amoeba.heartbeat.Status;
@@ -74,6 +73,7 @@ import com.meidusa.amoeba.util.InitialisationException;
 import com.meidusa.amoeba.util.Reporter;
 import com.meidusa.amoeba.util.StringUtil;
 import com.meidusa.amoeba.util.ValueComparator;
+import com.meidusa.amoeba.util.redis.RedisAPI;
 import com.meidusa.amoeba.util.redis.RedisUtils;
 
 /**
@@ -104,6 +104,10 @@ public class ProxyRuntimeContext implements Reporter {
     private RuntimeContext runtimeContext;
     
     private Map<String, Object> beanContext = new HashMap<String, Object>();
+    
+    private String loadDbUsageSql ;
+    private String loadDbserverInfoSql;
+    private String loadUserDbserverSql;
     
     private Map<String, Double> dbServerUsage ;
     
@@ -851,8 +855,19 @@ public class ProxyRuntimeContext implements Reporter {
 	    }  
 	}  */
 	
+	public void loadSqlProperties(){
+		ResourceBundle bundle = ResourceBundle.getBundle("conf/sql");
+		if (bundle == null) {
+			throw new IllegalArgumentException(
+					"[sql.properties] is not found!");
+		}
+		this.loadDbUsageSql = bundle.getString("sql.loadDbserverUsage");
+		this.loadDbserverInfoSql = bundle.getString("sql.loadDbserverInfo");
+		this.loadUserDbserverSql = bundle.getString("sql.loadUserDbserver");
+	}
+	
 	public void loadDbserverUsage(){
-		String sql = "select dbserver,(maxCount - userCount) 'usage' from dbserver_info group by dbserver";
+		String sql = this.loadDbUsageSql;
 		List<Map<String, Object>> usageList = query("jdbcserver",sql,null);
 		HashMap<String,Double> map = new HashMap<String,Double>();  
         ValueComparator bvc =  new ValueComparator(map);  
@@ -865,17 +880,29 @@ public class ProxyRuntimeContext implements Reporter {
 		
 		dbServerUsage = new TreeMap<String,Double>(bvc);  
 		this.dbServerUsage.putAll(map);
-		
-		try {
-			Jedis jedis = RedisUtils.getResource();
-			RedisUtils.returnResource(jedis);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
 	}
 	
+	public void loadDbserverInfo(){
+		String sql = this.loadDbserverInfoSql;
+		List<Map<String, Object>> result = query("jdbcserver",sql,null);
+		List<DbServerInfo> dbServerInfoList = new ArrayList<DbServerInfo>();
+		for(Map<String, Object> dbserverInfoMap : result){
+			DbServerInfo dbServerInfo = new DbServerInfo(dbserverInfoMap);
+			dbServerInfoList.add(dbServerInfo);
+		}
+		RedisAPI.batchSetDbserverInfo(dbServerInfoList);
+	}
+	
+	public void loadUserDbserver(){
+		String sql = this.loadUserDbserverSql;
+		List<Map<String, Object>> result = query("jdbcserver",sql,null);
+		List<UserDbserver> userDbservers = new ArrayList<UserDbserver>();
+		for(Map<String, Object> userDbserverMap : result){
+			UserDbserver  userDbserver = new UserDbserver(userDbserverMap);
+			userDbservers.add(userDbserver);
+		}
+		RedisAPI.batchSetUserDbserver(userDbservers);
+	}
 	
 	private List<Map<String, Object>> query(String poolName,String sql, Comparable<?>[] parameters) {
         ObjectPool pool = this.poolMap.get(poolName);

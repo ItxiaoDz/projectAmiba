@@ -50,7 +50,12 @@ public class MonitorClientConnection extends Connection {
 		//增加reload命令
 		case MonitorConstant.FUN_TYPE_AMOEBA_RELOAD:{
 			logger.warn("reloading amoeba ....");
+			//初始化数据库使用率
 			ProxyRuntimeContext.getInstance().loadDbserverUsage();
+			//初始化数据库信息
+			ProxyRuntimeContext.getInstance().loadDbserverInfo();
+			//初始化用户和数据库对照关系
+			ProxyRuntimeContext.getInstance().loadUserDbserver();
 			packet.funType = MonitorConstant.FUN_TYPE_OK;
 			this.postMessage(packet.toByteBuffer(this));
 			break;

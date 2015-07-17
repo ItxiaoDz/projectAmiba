@@ -13,11 +13,14 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import com.meidusa.amoeba.context.ProxyRuntimeContext;
+import com.meidusa.amoeba.data.DbServerInfo;
+import com.meidusa.amoeba.data.UserDbserver;
 import com.meidusa.amoeba.net.poolable.ObjectPool;
 import com.meidusa.amoeba.sqljep.ASTFunNode;
 import com.meidusa.amoeba.sqljep.JepRuntime;
 import com.meidusa.amoeba.sqljep.ParseException;
 import com.meidusa.amoeba.util.DbServerUtil;
+import com.meidusa.amoeba.util.redis.RedisAPI;
 
 /**
  * 
@@ -171,92 +174,91 @@ public class GetDbServerById extends PostfixCommand {
 		if (param == null) {
 			return null;
 		}
-		Comparable<?>[] params = new Comparable<?>[]{param};
-		System.out.println("开始查询对照关系"+new Date().getTime());
-		Map<String,Object> serverResult = query(params,sql);
-		System.out.println("结束查询对照关系"+new Date().getTime());
-		if(serverResult==null){
+		long queryStart = new Date().getTime();
+		Long userId = Long.valueOf(param.toString());
+		UserDbserver userDbserver = RedisAPI.getUserDbserver(userId);
+		DbServerInfo dbServerInfo = null;
+		if(null == userDbserver){
+			Comparable<?>[] params = new Comparable<?>[]{param};
+			Map<String,Object> serverResult = query(params,sql);
+			if(null == serverResult){
+				dbServerInfo = null;
+			}else{
+				dbServerInfo = new DbServerInfo(serverResult);
+				userDbserver = new UserDbserver();
+				userDbserver.setUserId(userId);
+				userDbserver.setDbserver(dbServerInfo.getDbserver());
+				RedisAPI.setUserDbserver(userDbserver);
+			}
+			
+		}else{
+			dbServerInfo = RedisAPI.getDbServerInfo(userDbserver.getDbserver());
+			if(null == dbServerInfo){
+				String dbInfoSql = "select * from "+dbInfoTab+" where dbserver = ?";
+				Comparable<?>[] params = new Comparable<?>[]{userDbserver.getDbserver()};
+				Map<String,Object> serverResult = query(params,dbInfoSql);
+				if(serverResult!=null){
+					//写入redis中
+					dbServerInfo = new DbServerInfo(serverResult);
+					RedisAPI.setDbserverInfo(dbServerInfo);
+				}
+			}
+		}
+		Long queryEnd = new Date().getTime();
+		System.out.println("查询对照关系耗时："+(queryEnd-queryStart));
+		
+		//新增对照关系
+		if(userDbserver==null && dbServerInfo ==null){
 			String minUsageSever = DbServerUtil.selectDbserver();
-			params = new Comparable<?>[]{param,minUsageSever};
+			Comparable<?>[] params = new Comparable<?>[]{param,minUsageSever};
 			long starTime = new Date().getTime();
+			//插入对照关系
 			insert(params,insertUserDb);
+			userDbserver = new UserDbserver();
+			userDbserver.setUserId(userId);
+			userDbserver.setDbserver(minUsageSever);
+			//将对照关系写入redis
+			RedisAPI.setUserDbserver(userDbserver);
 			long endTime = new Date().getTime();
 			System.out.println("插入对照关系耗时"+(endTime-starTime));
 			params = new Comparable<?>[]{minUsageSever};
 			String updateUserCount = "update "+dbInfoTab+" set userCount=userCount+1 where dbserver=?";
 			starTime = new Date().getTime();
+			//更新使用用户数
 			insert(params,updateUserCount);
 			endTime = new Date().getTime();
 			System.out.println("修改服务器使用情况耗时"+(endTime-starTime));
 			DbServerUtil.increaseUsage(minUsageSever);
-			params = new Comparable<?>[]{minUsageSever};
-			String dbInfoSql = "select * from "+dbInfoTab+" where dbserver = ?";
 			starTime = new Date().getTime();
-			serverResult = query(params,dbInfoSql);
+			//从redis中获取数据库信息
+			dbServerInfo = RedisAPI.getDbServerInfo(minUsageSever);
+			//如果redis中没有，则去数据库查询
+			if(null == dbServerInfo){
+				String dbInfoSql = "select * from "+dbInfoTab+" where dbserver = ?";
+				params = new Comparable<?>[]{minUsageSever};
+				Map<String,Object> serverResult = query(params,dbInfoSql);
+				if(serverResult!=null){
+					//写入redis中
+					dbServerInfo = new DbServerInfo(serverResult);
+					RedisAPI.setDbserverInfo(dbServerInfo);
+				}
+				
+			}
 			endTime = new Date().getTime();
 			System.out.println("获取服务器信息耗时"+(endTime-starTime));
 		}
 		
-		String dbserver = (String) serverResult.get("dbserver");
-		String ipAddr = (String) serverResult.get("ipaddr");
+		String dbserver = dbServerInfo.getDbserver();
+		String ipAddr = dbServerInfo.getIpAddr();
 		int port = 0;
-		if(serverResult.containsKey("port") && null != serverResult.get("port")){
-			port = (Integer) serverResult.get("port");
+		if(null != dbServerInfo.getPort()){
+			port = dbServerInfo.getPort();
 		}
-		String dbUser = (String) serverResult.get("dbUser");
-		String dbPassword = (String) serverResult.get("dbPassword");
-		String schema = (String) serverResult.get("schema");
-		String parent = (String) serverResult.get("parent");
+		String dbUser = dbServerInfo.getDbUser();
+		String dbPassword = dbServerInfo.getDbPassword();
+		String schema = dbServerInfo.getSchema();
+		String parent = dbServerInfo.getParent();
 		
-		/*String driver = "com.mysql.jdbc.Driver";
-
-		// URL鎸囧悜瑕佽闂殑鏁版嵁搴撳悕scutcs
-
-		String url = "jdbc:mysql://127.0.0.1:3306/trade";
-
-		// MySQL閰嶇疆鏃剁殑鐢ㄦ埛鍚
-		String user = "root";
-
-		// Java杩炴帴MySQL閰嶇疆鏃剁殑瀵嗙爜
-
-		String password = "123456";
-		
-		try {
-
-		// 鍔犺浇椹卞姩绋嬪簭
-
-		Class.forName(driver);
-
-		// 杩炵画鏁版嵁搴
-		//DriverManager.setLoginTimeout(100);
-		Connection conn = DriverManager.getConnection(url, user, password);
-		if(!conn.isClosed())
-
-		System.out.println("Succeeded connecting to the Database!");
-		
-		String sqlStr = "select * from user_dbserver where userId="+param;
-		 Statement stmt = conn.createStatement() ;  
-		 ResultSet rs = stmt.executeQuery(sqlStr) ; 
-			while (rs.next()) {
-				dbserver = rs.getString("dbserver");
-				ipAddr = rs.getString("ipAddr");;
-				port = rs.getInt("port");
-				dbUser = rs.getString("dbUser");
-				dbPassword = rs.getString("dbPassword");
-				schema = rs.getString("schema");
-				parent = rs.getString("parent");
-				System.out.println(dbserver);
-			}
-		
-		conn.close();
-		}catch(ClassNotFoundException e) {   
-			System.out.println("Sorry,can`t find the Driver!");   
-			e.printStackTrace();   
-			} catch(SQLException e) {   
-			e.printStackTrace();   
-			} catch(Exception e) {   
-			e.printStackTrace();   
-			}*/
 		System.out.println("dbserver="+dbserver);
 		if(DbServerUtil.isExists(dbserver)){
 			return dbserver;

@@ -3,6 +3,8 @@
  */
 package com.meidusa.amoeba.data;
 
+import java.util.Map;
+
 
 /**
  * @author CZX
@@ -16,6 +18,24 @@ public class DbServerInfo {
 	private String dbPassword;
 	private String schema;
 	private String parent;
+	private Integer userCount;
+	private Integer maxCount;
+	
+	public DbServerInfo(){
+		
+	}
+	
+	public DbServerInfo(Map<String, Object> dbserverInfoMap){
+		dbserver = (String) dbserverInfoMap.get("dbserver");
+		ipAddr = (String) dbserverInfoMap.get("ipaddr");
+		port = (Integer) dbserverInfoMap.get("port");
+		dbUser = (String) dbserverInfoMap.get("dbuser");
+		dbPassword = (String) dbserverInfoMap.get("dbpassword");
+		schema = (String) dbserverInfoMap.get("schema");
+		parent = (String) dbserverInfoMap.get("parent");
+		userCount = (Integer) dbserverInfoMap.get("usercount");
+		maxCount = (Integer) dbserverInfoMap.get("maxcount");
+	}
 	
 	public String getDbserver() {
 		return dbserver;
@@ -58,5 +78,17 @@ public class DbServerInfo {
 	}
 	public void setParent(String parent) {
 		this.parent = parent;
+	}
+	public Integer getUserCount() {
+		return userCount;
+	}
+	public void setUserCount(Integer userCount) {
+		this.userCount = userCount;
+	}
+	public Integer getMaxCount() {
+		return maxCount;
+	}
+	public void setMaxCount(Integer maxCount) {
+		this.maxCount = maxCount;
 	}
 }

@@ -113,6 +113,7 @@ public class AmoebaProxyServer {
 	public static void main(String[] args) throws Exception {
 		String level = System.getProperty("benchmark.level", "warn");
 		System.setProperty("benchmark.level", level);
+		//TODO 这里上线时要去掉
 		System.setProperty("amoeba.home", "E:\\workspace\\amoeba\\bin");
 		if(args.length>=1){
 			ShutdownClient client = new ShutdownClient(MonitorConstant.APPLICATION_NAME);
@@ -187,8 +188,14 @@ public class AmoebaProxyServer {
 			registerReporter(service);
 		}
 		
+		//初始化查询sql
+		ProxyRuntimeContext.getInstance().loadSqlProperties();
 		//初始化数据库使用率
 		ProxyRuntimeContext.getInstance().loadDbserverUsage();
+		//初始化数据库信息
+		ProxyRuntimeContext.getInstance().loadDbserverInfo();
+		//初始化用户和数据库对照关系
+		ProxyRuntimeContext.getInstance().loadUserDbserver();
 		
 		new Thread(){
 			{
