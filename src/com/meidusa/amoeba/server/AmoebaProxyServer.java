@@ -196,7 +196,7 @@ public class AmoebaProxyServer {
 		ProxyRuntimeContext.getInstance().loadDbserverInfo();
 		//初始化用户和数据库对照关系
 		ProxyRuntimeContext.getInstance().loadUserDbserver();
-		
+		System.out.println("数据加载完成");
 		new Thread(){
 			{
 				this.setDaemon(true);

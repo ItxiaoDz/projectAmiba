@@ -174,7 +174,7 @@ public class GetDbServerById extends PostfixCommand {
 		if (param == null) {
 			return null;
 		}
-		long queryStart = new Date().getTime();
+		//long queryStart = new Date().getTime();
 		Long userId = Long.valueOf(param.toString());
 		UserDbserver userDbserver = RedisAPI.getUserDbserver(userId);
 		DbServerInfo dbServerInfo = null;
@@ -188,24 +188,20 @@ public class GetDbServerById extends PostfixCommand {
 				userDbserver = new UserDbserver();
 				userDbserver.setUserId(userId);
 				userDbserver.setDbserver(dbServerInfo.getDbserver());
+				userDbserver.setIpAddr(dbServerInfo.getIpAddr());
+				userDbserver.setPort(dbServerInfo.getPort());
+				userDbserver.setDbUser(dbServerInfo.getDbUser());
+				userDbserver.setDbPassword(dbServerInfo.getDbPassword());
+				userDbserver.setSchema(dbServerInfo.getSchema());
+				userDbserver.setParent(dbServerInfo.getParent());
+				userDbserver.setUserCount(dbServerInfo.getUserCount());
+				userDbserver.setMaxCount(dbServerInfo.getMaxCount());
 				RedisAPI.setUserDbserver(userDbserver);
 			}
 			
-		}else{
-			dbServerInfo = RedisAPI.getDbServerInfo(userDbserver.getDbserver());
-			if(null == dbServerInfo){
-				String dbInfoSql = "select * from "+dbInfoTab+" where dbserver = ?";
-				Comparable<?>[] params = new Comparable<?>[]{userDbserver.getDbserver()};
-				Map<String,Object> serverResult = query(params,dbInfoSql);
-				if(serverResult!=null){
-					//写入redis中
-					dbServerInfo = new DbServerInfo(serverResult);
-					RedisAPI.setDbserverInfo(dbServerInfo);
-				}
-			}
 		}
-		Long queryEnd = new Date().getTime();
-		System.out.println("查询对照关系耗时："+(queryEnd-queryStart));
+		//Long queryEnd = new Date().getTime();
+		//System.out.println("查询对照关系耗时："+(queryEnd-queryStart));
 		
 		//新增对照关系
 		if(userDbserver==null && dbServerInfo ==null){
@@ -214,11 +210,6 @@ public class GetDbServerById extends PostfixCommand {
 			long starTime = new Date().getTime();
 			//插入对照关系
 			insert(params,insertUserDb);
-			userDbserver = new UserDbserver();
-			userDbserver.setUserId(userId);
-			userDbserver.setDbserver(minUsageSever);
-			//将对照关系写入redis
-			RedisAPI.setUserDbserver(userDbserver);
 			long endTime = new Date().getTime();
 			System.out.println("插入对照关系耗时"+(endTime-starTime));
 			params = new Comparable<?>[]{minUsageSever};
@@ -244,25 +235,38 @@ public class GetDbServerById extends PostfixCommand {
 				}
 				
 			}
+			userDbserver = new UserDbserver();
+			userDbserver.setUserId(userId);
+			userDbserver.setDbserver(dbServerInfo.getDbserver());
+			userDbserver.setIpAddr(dbServerInfo.getIpAddr());
+			userDbserver.setPort(dbServerInfo.getPort());
+			userDbserver.setDbUser(dbServerInfo.getDbUser());
+			userDbserver.setDbPassword(dbServerInfo.getDbPassword());
+			userDbserver.setSchema(dbServerInfo.getSchema());
+			userDbserver.setParent(dbServerInfo.getParent());
+			userDbserver.setUserCount(dbServerInfo.getUserCount());
+			userDbserver.setMaxCount(dbServerInfo.getMaxCount());
+			//将对照关系写入redis
+			RedisAPI.setUserDbserver(userDbserver);
 			endTime = new Date().getTime();
 			System.out.println("获取服务器信息耗时"+(endTime-starTime));
 		}
 		
-		String dbserver = dbServerInfo.getDbserver();
-		String ipAddr = dbServerInfo.getIpAddr();
-		int port = 0;
-		if(null != dbServerInfo.getPort()){
-			port = dbServerInfo.getPort();
-		}
-		String dbUser = dbServerInfo.getDbUser();
-		String dbPassword = dbServerInfo.getDbPassword();
-		String schema = dbServerInfo.getSchema();
-		String parent = dbServerInfo.getParent();
+		String dbserver = userDbserver.getDbserver();
 		
-		System.out.println("dbserver="+dbserver);
+		//System.out.println("dbserver="+dbserver);
 		if(DbServerUtil.isExists(dbserver)){
 			return dbserver;
 		}else{
+			String ipAddr = userDbserver.getIpAddr();
+			int port = 0;
+			if(null != userDbserver.getPort()){
+				port = userDbserver.getPort();
+			}
+			String dbUser = userDbserver.getDbUser();
+			String dbPassword = userDbserver.getDbPassword();
+			String schema = userDbserver.getSchema();
+			String parent = userDbserver.getParent();
 			boolean flag = DbServerUtil.createDbServer(dbserver, ipAddr, port, dbUser, dbPassword, schema, parent);
 			if(flag){
 				return dbserver;

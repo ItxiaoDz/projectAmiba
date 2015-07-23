@@ -1,6 +1,7 @@
 package com.meidusa.amoeba.util.redis;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 
@@ -189,6 +190,30 @@ public class RedisAPI {
         	if(null!=userDbserver.getDbserver()){
         		pipeline.hset(userId, USERDBSERVER_DBSERVER, userDbserver.getDbserver());
         	}
+        	if(null!=userDbserver.getIpAddr()){
+        		pipeline.hset(userId, DBSERVERINFO_IPADDR, userDbserver.getIpAddr());
+        	}
+        	if(null!=userDbserver.getPort()){
+        		pipeline.hset(userId, DBSERVERINFO_PORT, userDbserver.getPort().toString());
+        	}
+        	if(null!=userDbserver.getDbUser()){
+        		pipeline.hset(userId, DBSERVERINFO_DBUSER, userDbserver.getDbUser());
+        	}
+        	if(null!=userDbserver.getDbPassword()){
+        		pipeline.hset(userId, DBSERVERINFO_DBPWD, userDbserver.getDbPassword());
+        	}
+        	if(null!=userDbserver.getSchema()){
+        		pipeline.hset(userId, DBSERVERINFO_SCHEMA, userDbserver.getSchema());
+        	}
+        	if(null!=userDbserver.getParent()){
+        		pipeline.hset(userId, DBSERVERINFO_PARENT, userDbserver.getParent());
+        	}
+        	if(null!=userDbserver.getUserCount()){
+        		pipeline.hset(userId, DBSERVERINFO_USERCOUNT, userDbserver.getUserCount().toString());
+        	}
+        	if(null!=userDbserver.getMaxCount()){
+        		pipeline.hset(userId, DBSERVERINFO_MAXCOUNT, userDbserver.getMaxCount().toString());
+        	}
 	        	
             pipeline.sync();
 		} catch (Exception e) {
@@ -212,6 +237,30 @@ public class RedisAPI {
 				String userId=userDbserver.getUserId().toString();
 	        	if(null!=userDbserver.getDbserver()){
 	        		pipeline.hset(userId, USERDBSERVER_DBSERVER, userDbserver.getDbserver());
+	        	}
+	        	if(null!=userDbserver.getIpAddr()){
+	        		pipeline.hset(userId, DBSERVERINFO_IPADDR, userDbserver.getIpAddr());
+	        	}
+	        	if(null!=userDbserver.getPort()){
+	        		pipeline.hset(userId, DBSERVERINFO_PORT, userDbserver.getPort().toString());
+	        	}
+	        	if(null!=userDbserver.getDbUser()){
+	        		pipeline.hset(userId, DBSERVERINFO_DBUSER, userDbserver.getDbUser());
+	        	}
+	        	if(null!=userDbserver.getDbPassword()){
+	        		pipeline.hset(userId, DBSERVERINFO_DBPWD, userDbserver.getDbPassword());
+	        	}
+	        	if(null!=userDbserver.getSchema()){
+	        		pipeline.hset(userId, DBSERVERINFO_SCHEMA, userDbserver.getSchema());
+	        	}
+	        	if(null!=userDbserver.getParent()){
+	        		pipeline.hset(userId, DBSERVERINFO_PARENT, userDbserver.getParent());
+	        	}
+	        	if(null!=userDbserver.getUserCount()){
+	        		pipeline.hset(userId, DBSERVERINFO_USERCOUNT, userDbserver.getUserCount().toString());
+	        	}
+	        	if(null!=userDbserver.getMaxCount()){
+	        		pipeline.hset(userId, DBSERVERINFO_MAXCOUNT, userDbserver.getMaxCount().toString());
 	        	}
 	        	
 			}
@@ -237,12 +286,42 @@ public class RedisAPI {
             	return null;
             }
 			
-			UserDbserver userDbserver = new UserDbserver();
-			userDbserver.setUserId(userId);
-			String dbserver = jedis.hget(userId_str, USERDBSERVER_DBSERVER);
+			
+			
+			/*String dbserver = jedis.hget(userId_str, USERDBSERVER_DBSERVER);
 			if(null != dbserver && dbserver.length()>0){
 				userDbserver.setDbserver(dbserver);
+			}*/
+			UserDbserver userDbserver = new UserDbserver();
+			Map<String, String> userDbserverMap = jedis.hgetAll(userId_str);
+			if(userDbserverMap.containsKey(USERDBSERVER_DBSERVER)){
+				userDbserver.setDbserver(userDbserverMap.get(USERDBSERVER_DBSERVER));
 			}
+			if(userDbserverMap.containsKey(DBSERVERINFO_IPADDR)){
+				userDbserver.setIpAddr(userDbserverMap.get(DBSERVERINFO_IPADDR));
+			}
+			if(userDbserverMap.containsKey(DBSERVERINFO_PORT) && userDbserverMap.get(DBSERVERINFO_PORT).length()>0){
+				userDbserver.setPort(Integer.valueOf(userDbserverMap.get(DBSERVERINFO_PORT)));
+			}
+			if(userDbserverMap.containsKey(DBSERVERINFO_DBUSER)){
+				userDbserver.setDbUser(userDbserverMap.get(DBSERVERINFO_DBUSER));
+			}
+			if(userDbserverMap.containsKey(DBSERVERINFO_DBPWD)){
+				userDbserver.setDbPassword(userDbserverMap.get(DBSERVERINFO_DBPWD));
+			}
+			if(userDbserverMap.containsKey(DBSERVERINFO_SCHEMA)){
+				userDbserver.setSchema(userDbserverMap.get(DBSERVERINFO_SCHEMA));
+			}
+			if(userDbserverMap.containsKey(DBSERVERINFO_PARENT)){
+				userDbserver.setParent(userDbserverMap.get(DBSERVERINFO_PARENT));
+			}
+			if(userDbserverMap.containsKey(DBSERVERINFO_USERCOUNT) && userDbserverMap.get(DBSERVERINFO_USERCOUNT).length()>0){
+				userDbserver.setUserCount(Integer.valueOf(userDbserverMap.get(DBSERVERINFO_USERCOUNT)));
+			}
+			if(userDbserverMap.containsKey(DBSERVERINFO_MAXCOUNT) && userDbserverMap.get(DBSERVERINFO_MAXCOUNT).length()>0){
+				userDbserver.setUserCount(Integer.valueOf(userDbserverMap.get(DBSERVERINFO_MAXCOUNT)));
+			}
+			
 			return userDbserver;
 		} catch (Exception e) {
 			logger.error("redis获取用户和数据库对照关系时异常失败",e);
