@@ -110,7 +110,8 @@ public class ProxyRuntimeContext implements Reporter {
     private String loadUserDbserverSql;
     
     private Map<String, Double> dbServerUsage ;
-    
+    private Map<Long, UserDbserver> userDbMap;
+    private Map<String, DbServerInfo> dbInfoMap;
 	public RuntimeContext getRuntimeContext() {
 		return runtimeContext;
 	}
@@ -886,9 +887,11 @@ public class ProxyRuntimeContext implements Reporter {
 		String sql = this.loadDbserverInfoSql;
 		List<Map<String, Object>> result = query("jdbcserver",sql,null);
 		List<DbServerInfo> dbServerInfoList = new ArrayList<DbServerInfo>();
+		dbInfoMap = new HashMap<String, DbServerInfo>();
 		for(Map<String, Object> dbserverInfoMap : result){
 			DbServerInfo dbServerInfo = new DbServerInfo(dbserverInfoMap);
 			dbServerInfoList.add(dbServerInfo);
+			dbInfoMap.put(dbServerInfo.getDbserver(), dbServerInfo);
 		}
 		RedisAPI.batchSetDbserverInfo(dbServerInfoList);
 	}
@@ -897,9 +900,11 @@ public class ProxyRuntimeContext implements Reporter {
 		String sql = this.loadUserDbserverSql;
 		List<Map<String, Object>> result = query("jdbcserver",sql,null);
 		List<UserDbserver> userDbservers = new ArrayList<UserDbserver>();
+		userDbMap = new HashMap<Long, UserDbserver>();
 		for(Map<String, Object> userDbserverMap : result){
 			UserDbserver  userDbserver = new UserDbserver(userDbserverMap);
 			userDbservers.add(userDbserver);
+			userDbMap.put(userDbserver.getUserId(), userDbserver);
 		}
 		RedisAPI.batchSetUserDbserver(userDbservers);
 	}
