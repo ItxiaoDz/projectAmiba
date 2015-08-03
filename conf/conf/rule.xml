@@ -50,10 +50,16 @@
 			]]></expression>
 			</rule> -->
 			
-           <rule name="rule1" ruleResult="POOLNAME">
+           <!-- <rule name="rule1" ruleResult="POOLNAME">
                    <parameters>userId</parameters>
                    <expression><![CDATA[
                          getDbServerById(userId)
+                   ]]></expression>
+           </rule> -->
+           <rule name="rule1" ruleResult="POOLNAME">
+                   <parameters>userId</parameters>
+                   <expression><![CDATA[
+                         getDbServerByIdUseMap(userId)
                    ]]></expression>
            </rule>
            <!-- <rule name="rule1">

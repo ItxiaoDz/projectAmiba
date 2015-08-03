@@ -159,7 +159,15 @@ public class ProxyRuntimeContext implements Reporter {
 		return dbServerUsage;
 	}
 
-    private List<Initialisable> initialisableList = new ArrayList<Initialisable>();
+    public Map<Long, UserDbserver> getUserDbMap() {
+		return userDbMap;
+	}
+
+	public Map<String, DbServerInfo> getDbInfoMap() {
+		return dbInfoMap;
+	}
+
+	private List<Initialisable> initialisableList = new ArrayList<Initialisable>();
 
     /**
      * 
@@ -857,7 +865,7 @@ public class ProxyRuntimeContext implements Reporter {
 	}  */
 	
 	public void loadSqlProperties(){
-		ResourceBundle bundle = ResourceBundle.getBundle("conf/sql");
+		ResourceBundle bundle = ResourceBundle.getBundle("sql");
 		if (bundle == null) {
 			throw new IllegalArgumentException(
 					"[sql.properties] is not found!");

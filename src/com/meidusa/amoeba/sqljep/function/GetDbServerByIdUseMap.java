@@ -27,8 +27,8 @@ import com.meidusa.amoeba.util.redis.RedisAPI;
  * @author struct
  *
  */
-public class GetDbServerById extends PostfixCommand {
-	private static Logger logger           = Logger.getLogger(GetDbServerById.class);
+public class GetDbServerByIdUseMap extends PostfixCommand {
+	private static Logger logger           = Logger.getLogger(GetDbServerByIdUseMap.class);
 	private String        poolName;
 	private String        sql;
 	private String 		  dbInfoTab;
@@ -176,7 +176,8 @@ public class GetDbServerById extends PostfixCommand {
 		}
 		//long queryStart = new Date().getTime();
 		Long userId = Long.valueOf(param.toString());
-		UserDbserver userDbserver = RedisAPI.getUserDbserver(userId);
+//		UserDbserver userDbserver = RedisAPI.getUserDbserver(userId);
+		UserDbserver userDbserver = ProxyRuntimeContext.getInstance().getUserDbMap().get(userId);
 		DbServerInfo dbServerInfo = null;
 		if(null == userDbserver){
 			Comparable<?>[] params = new Comparable<?>[]{param};
@@ -196,7 +197,8 @@ public class GetDbServerById extends PostfixCommand {
 				userDbserver.setParent(dbServerInfo.getParent());
 				userDbserver.setUserCount(dbServerInfo.getUserCount());
 				userDbserver.setMaxCount(dbServerInfo.getMaxCount());
-				RedisAPI.setUserDbserver(userDbserver);
+				//RedisAPI.setUserDbserver(userDbserver);
+				ProxyRuntimeContext.getInstance().getUserDbMap().put(userId, userDbserver);
 			}
 			
 		}
@@ -207,22 +209,23 @@ public class GetDbServerById extends PostfixCommand {
 		if(userDbserver==null && dbServerInfo ==null){
 			String minUsageSever = DbServerUtil.selectDbserver();
 			Comparable<?>[] params = new Comparable<?>[]{param,minUsageSever};
-			long starTime = new Date().getTime();
+			//long starTime = new Date().getTime();
 			//插入对照关系
 			insert(params,insertUserDb);
-			long endTime = new Date().getTime();
+			//long endTime = new Date().getTime();
 			//System.out.println("插入对照关系耗时"+(endTime-starTime));
 			params = new Comparable<?>[]{minUsageSever};
 			String updateUserCount = "update "+dbInfoTab+" set userCount=userCount+1 where dbserver=?";
-			starTime = new Date().getTime();
+			//starTime = new Date().getTime();
 			//更新使用用户数
 			insert(params,updateUserCount);
-			endTime = new Date().getTime();
+			//endTime = new Date().getTime();
 			//System.out.println("修改服务器使用情况耗时"+(endTime-starTime));
 			DbServerUtil.increaseUsage(minUsageSever);
-			starTime = new Date().getTime();
+			//starTime = new Date().getTime();
 			//从redis中获取数据库信息
-			dbServerInfo = RedisAPI.getDbServerInfo(minUsageSever);
+			//dbServerInfo = RedisAPI.getDbServerInfo(minUsageSever);
+			dbServerInfo = ProxyRuntimeContext.getInstance().getDbInfoMap().get(minUsageSever);
 			//如果redis中没有，则去数据库查询
 			if(null == dbServerInfo){
 				String dbInfoSql = "select * from "+dbInfoTab+" where dbserver = ?";
@@ -231,7 +234,8 @@ public class GetDbServerById extends PostfixCommand {
 				if(serverResult!=null){
 					//写入redis中
 					dbServerInfo = new DbServerInfo(serverResult);
-					RedisAPI.setDbserverInfo(dbServerInfo);
+					//RedisAPI.setDbserverInfo(dbServerInfo);
+					ProxyRuntimeContext.getInstance().getDbInfoMap().put(dbServerInfo.getDbserver(), dbServerInfo);
 				}
 				
 			}
@@ -247,8 +251,9 @@ public class GetDbServerById extends PostfixCommand {
 			userDbserver.setUserCount(dbServerInfo.getUserCount());
 			userDbserver.setMaxCount(dbServerInfo.getMaxCount());
 			//将对照关系写入redis
-			RedisAPI.setUserDbserver(userDbserver);
-			endTime = new Date().getTime();
+			//RedisAPI.setUserDbserver(userDbserver);
+			ProxyRuntimeContext.getInstance().getUserDbMap().put(userId, userDbserver);
+			//endTime = new Date().getTime();
 			//System.out.println("获取服务器信息耗时"+(endTime-starTime));
 		}
 		
@@ -279,7 +284,7 @@ public class GetDbServerById extends PostfixCommand {
 
 	public Comparable<?> getResult(Comparable<?>... comparables)
 			throws ParseException {
-		//System.out.println("使用GetDbServerById");
+//		System.out.println("使用GetDbServerByIdUseMap");
 		return getDbserverById(comparables[0]);
 	}
 	

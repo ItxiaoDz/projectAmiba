@@ -13,7 +13,7 @@ public class RedisUtils {
 	private static String password = null;
 	private static Integer selectIndex = null;
 	static {
-		ResourceBundle bundle = ResourceBundle.getBundle("conf/redis");
+		ResourceBundle bundle = ResourceBundle.getBundle("redis");
 		if (bundle == null) {
 			throw new IllegalArgumentException(
 					"[usercenter-redis.properties] is not found!");

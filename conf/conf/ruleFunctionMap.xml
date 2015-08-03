@@ -16,6 +16,12 @@
 		<property name="dbInfoTab">dbserver_info</property>
 		<property name="poolName">jdbcserver</property>
 	</function>
+	<function name="getDbServerByIdUseMap" class="com.meidusa.amoeba.sqljep.function.GetDbServerByIdUseMap">
+		<property name="sql">select * from user_dbserver ud,dbserver_info db where db.dbserver = ud.dbserver and userId=?</property>
+		<property name="insertUserDb">insert into user_dbserver(userId,dbserver) values(?,?)</property>
+		<property name="dbInfoTab">dbserver_info</property>
+		<property name="poolName">jdbcserver</property>
+	</function>
 	
 	
 	<!-- jdbcserver's factoryConfig class must be com.meidusa.amoeba.jdbc.JdbcConnectionFactory -->

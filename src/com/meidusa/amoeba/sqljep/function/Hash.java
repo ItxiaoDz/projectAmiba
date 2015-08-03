@@ -31,7 +31,7 @@ public class Hash extends PostfixCommand {
 
 	public Comparable<?> getResult(Comparable<?>... comparables)
 			throws ParseException {
-		System.out.println("ä½¿ç”¨hash");
+		//System.out.println("Ê¹ÓÃhash");
 		return hash(comparables[0]);
 	}
 	
